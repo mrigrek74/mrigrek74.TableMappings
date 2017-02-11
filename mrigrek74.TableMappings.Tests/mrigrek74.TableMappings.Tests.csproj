@@ -72,22 +72,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TableMapping\Csv\SuppressConvertTypeErrorsTestCsv.csv">
+    <None Include="TableMapping\Csv\SuppressConvertTypeErrorsTest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TableMapping\Csv\Test.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TableMapping\Csv\ValidationTest.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TableMapping\Xlsx\SuppressConvertTypeErrorsTest.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TableMapping\Csv\TestCsv.csv">
+    <None Include="TableMapping\Xlsx\Test.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TableMapping\Csv\ValidationTestCsv.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TableMapping\Xlsx\SuppressConvertTypeErrorsTestXlsx.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TableMapping\Xlsx\TestXlsx.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TableMapping\Xlsx\ValidationTestXlsx.xlsx">
+    <None Include="TableMapping\Xlsx\ValidationTest.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

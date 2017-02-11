@@ -66,10 +66,6 @@ namespace mrigrek74.TableMappings.Core
 
                 try
                 {
-                    //TODO добавить культурозависимость
-                    //так дольше
-                    //var o = TypeDescriptor.GetConverter(property.PropertyType)
-                    //    .ConvertFrom(null, new CultureInfo("en-US"), data);
                     var o = TypeDescriptor.GetConverter(property.PropertyType)
                         .ConvertFrom(data);
                     property.SetValue(target, o);

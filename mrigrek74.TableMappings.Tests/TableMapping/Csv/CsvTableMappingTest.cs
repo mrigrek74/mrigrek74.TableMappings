@@ -52,21 +52,33 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         #endregion
 
 
-        private const string TestCsvPath = "TableMapping/Csv/TestCsv.csv";
+        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
 
-        private void SimpleMappingTrace(ICollection<TestClass> items)
+        private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
-            Trace.WriteLine(TestCsvPath);
+            Trace.WriteLine(path);
             Trace.WriteLine("");
             const int take = 100;
             Trace.WriteLine($"First {take} of {items.Count}:");
 
-            foreach (var item in items.Take(take))
+            var top = items.Take(take).ToList();
+
+            for (int i = 0; i < top.Count; i++)
             {
+                var item = top[i];
+                if (i == 0)
+                {
+                    foreach (var p in item.GetType().GetProperties())
+                    {
+                        Trace.Write($"{p.Name};");
+                    }
+                    Trace.WriteLine(string.Empty);
+                }
                 foreach (var p in item.GetType().GetProperties())
                 {
-                    Trace.WriteLine($"{p.Name};{p.GetValue(item, null)}");
+                    Trace.Write($"{p.GetValue(item, null)};");
                 }
+                Trace.WriteLine(string.Empty);
             }
         }
 
@@ -79,7 +91,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items);
+            SimpleMappingTrace(items , TestCsvPath);
         }
 
         [TestMethod]
@@ -93,7 +105,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items);
+                SimpleMappingTrace(items, TestCsvPath);
             }
         }
 
@@ -106,7 +118,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             [ColumnName("Test Int")]
             public int TestInt { get; set; }
         }
-        private const string ValidationTestCsvPath = "TableMapping/Csv/ValidationTestCsv.csv";
+        private const string ValidationTestCsvPath = "TableMapping/Csv/ValidationTest.csv";
 
         [TestMethod]
         public void MappingWithValidation()
@@ -151,11 +163,11 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items);
+            SimpleMappingTrace(items, TestCsvPath);
         }
 
 
-        private const string SuppressConvertTypeErrorsTestCsvPath = "TableMapping/Csv/SuppressConvertTypeErrorsTestCsv.csv";
+        private const string SuppressConvertTypeErrorsTestCsvPath = "TableMapping/Csv/SuppressConvertTypeErrorsTest.csv";
 
         [TestMethod]
         public void MappingWithSuppressConvertTypeErrors()
@@ -167,9 +179,9 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items);
+                SimpleMappingTrace(items, TestCsvPath);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
                 Trace.WriteLine(ex.Message);
                 return;

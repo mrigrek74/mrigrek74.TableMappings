@@ -15,9 +15,13 @@ namespace mrigrek74.TableMappings.Core
         public ColumnNameAttribute(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentException("columnName is requerid", nameof(columnName));
+                throw new ArgumentException("Column name is required", nameof(columnName));
 
-            ColumnName = columnName.Trim().ToLower();
+            ColumnName = columnName
+                .Replace("\r", string.Empty)
+                .Replace("\n", string.Empty)
+                .Trim()
+                .ToLower();
         }
 
         public static string GetColumnName(Type targetType, PropertyInfo property)

@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mrigrek74.TableMappings.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mrigrek74.TableMappings.Tests", "mrigrek74.TableMappings.Tests\mrigrek74.TableMappings.Tests.csproj", "{D68866CA-A289-46D5-9C97-E9EE23E1F7B3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stuff", "Stuff", "{A941F69A-9712-4EA4-8ED6-064FD4BBEADB}"
+	ProjectSection(SolutionItems) = preProject
+		Stuff\Todo.txt = Stuff\Todo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

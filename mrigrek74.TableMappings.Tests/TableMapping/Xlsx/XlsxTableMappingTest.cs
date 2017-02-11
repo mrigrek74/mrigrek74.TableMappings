@@ -52,21 +52,33 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         #endregion
 
 
-        private const string TestXlsxPath = "TableMapping/Xlsx/TestXlsx.xlsx";
+        private const string TestXlsxPath = "TableMapping/Xlsx/Test.xlsx";
 
-        private void SimpleMappingTrace(ICollection<TestClass> items)
+        private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
-            Trace.WriteLine(TestXlsxPath);
+            Trace.WriteLine(path);
             Trace.WriteLine("");
             const int take = 100;
             Trace.WriteLine($"First {take} of {items.Count}:");
 
-            foreach (var item in items.Take(take))
+            var top = items.Take(take).ToList();
+
+            for (int i = 0; i < top.Count; i++)
             {
+                var item = top[i];
+                if (i == 0)
+                {
+                    foreach (var p in item.GetType().GetProperties())
+                    {
+                        Trace.Write($"{p.Name};");
+                    }
+                    Trace.WriteLine(string.Empty);
+                }
                 foreach (var p in item.GetType().GetProperties())
                 {
-                    Trace.WriteLine($"{p.Name};{p.GetValue(item, null)}");
+                    Trace.Write($"{p.GetValue(item, null)};");
                 }
+                Trace.WriteLine(string.Empty);
             }
         }
 
@@ -79,7 +91,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items);
+            SimpleMappingTrace(items, TestXlsxPath);
         }
 
         [TestMethod]
@@ -93,7 +105,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items);
+                SimpleMappingTrace(items, TestXlsxPath);
             }
         }
 
@@ -105,7 +117,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             [ColumnName("Test Int")]
             public int TestInt { get; set; }
         }
-        private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTestXlsx.xlsx";
+        private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTest.xlsx";
 
 
         [TestMethod]
@@ -151,12 +163,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items);
+            SimpleMappingTrace(items, TestXlsxPath);
         }
 
 
         private const string SuppressConvertTypeErrorsTestXlsxPath
-            = "TableMapping/Xlsx/SuppressConvertTypeErrorsTestXlsx.xlsx";
+            = "TableMapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
 
         [TestMethod]
         public void MappingWithSuppressConvertTypeErrors()
@@ -168,9 +180,9 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items);
+                SimpleMappingTrace(items, TestXlsxPath);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
                 Trace.WriteLine(ex.Message);
                 return;
