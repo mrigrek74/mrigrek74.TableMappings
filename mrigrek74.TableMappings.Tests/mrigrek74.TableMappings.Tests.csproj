@@ -53,15 +53,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="TableExport\Csv\CsvTableExportTest.cs" />
     <Compile Include="TableExport\Xlsx\XlsxTableExportTest.cs" />
     <Compile Include="TableMapping\Csv\CsvTableMappingTest.cs" />
     <Compile Include="TableMapping\Xlsx\XlsxTableMappingTest.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TableExport\Csv\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mrigrek74.TableMappings.Core.Epplus\mrigrek74.TableMappings.Core.Epplus.csproj">
       <Project>{2d36ef78-8cc4-4d23-9cb5-4a2ce3714a0c}</Project>
