@@ -1,2 +1,4 @@
 Список ошибок
 Свой exception c номером некорректной строки
+ресурсы
+ToDataTable dictionary

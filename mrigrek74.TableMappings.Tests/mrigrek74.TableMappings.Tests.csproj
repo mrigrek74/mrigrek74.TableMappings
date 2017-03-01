@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -55,14 +57,16 @@
   <ItemGroup>
     <Compile Include="TableExport\Csv\CsvTableExportTest.cs" />
     <Compile Include="TableExport\Xlsx\XlsxTableExportTest.cs" />
+    <Compile Include="TableImport\Csv\CsvTableImportTest.cs" />
+    <Compile Include="TableImport\Csv\TestInsertOrUpdateSaver.cs" />
+    <Compile Include="TableImport\Csv\TestRemoveAllAndBulkInsertSaver.cs" />
+    <Compile Include="TableImport\Csv\TestInsertSaver.cs" />
     <Compile Include="TableMapping\Csv\CsvTableMappingTest.cs" />
     <Compile Include="TableMapping\Xlsx\XlsxTableMappingTest.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TableImport\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\mrigrek74.TableMappings.Core.Epplus\mrigrek74.TableMappings.Core.Epplus.csproj">
       <Project>{2d36ef78-8cc4-4d23-9cb5-4a2ce3714a0c}</Project>
