@@ -73,7 +73,7 @@ namespace mrigrek74.TableMappings.Core
                 catch (Exception ex)
                 {
                     if (!supressErrors)
-                        throw new TableMappingException($"Row {rowNumber}: {ex.Message}", rowNumber ?? 0, ex);
+                        throw new TableMappingException($"{Strings.Row} {rowNumber}: {ex.Message}", rowNumber ?? 0, ex);
                 }
             }
         }

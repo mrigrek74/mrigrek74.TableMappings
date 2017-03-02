@@ -15,7 +15,7 @@ namespace mrigrek74.TableMappings.Core
         public ColumnNameAttribute(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentException("Column name is required", nameof(columnName));
+                throw new ArgumentException(Strings.ColumnNameIsRequired, nameof(columnName));
 
             ColumnName = columnName
                 .Replace("\r", string.Empty)

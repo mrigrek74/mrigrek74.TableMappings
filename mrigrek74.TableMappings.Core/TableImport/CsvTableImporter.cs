@@ -73,7 +73,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                 {
                     header = parser.ReadFields();
                     if (header == null)
-                        throw new TableMappingException("Header row is empty" , row);
+                        throw new TableMappingException(Strings.HeaderRowIsEmpty , row);
                 }
                 else
                 {

@@ -72,7 +72,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     .Aggregate((item, next) => next + "; " + item);
 
                 var r = row + 1;
-                throw new TableMappingException($"Row: {r}; {aggregatedErrors}", r);
+                throw new TableMappingException($"{Strings.Row}: {r}; {aggregatedErrors}", r);
             }
         }
 
@@ -80,7 +80,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         {
             if (RowsLimit.HasValue && row > RowsLimit)
             {
-                throw new TableMappingException("Import is limited to " + RowsLimit + " records", row);
+                throw new TableMappingException($"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
             }
         }
 
