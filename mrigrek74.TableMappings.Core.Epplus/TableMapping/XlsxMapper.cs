@@ -48,13 +48,13 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
             if (string.IsNullOrEmpty(_sheetName))
             {
                 if (!pck.Workbook.Worksheets.Any())
-                    throw new InvalidOperationException("Не листов в Excel книге");
+                    throw new TableMappingException("Не листов в Excel книге", 0);
                 return pck.Workbook.Worksheets.First();
             }
 
             var sheet = pck.Workbook.Worksheets.FirstOrDefault(x => x.Name == _sheetName);
             if (sheet == null)
-                throw new InvalidOperationException("Не найден " + _sheetName);
+                throw new TableMappingException("Не найден " + _sheetName, 0);
             return sheet;
         }
 

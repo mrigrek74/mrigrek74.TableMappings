@@ -76,7 +76,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
         }
 
 
-        protected TableImporterBase(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+        protected TableImporterBase(IRowSaver<T> rowSaver, int? eventInterval,
+            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
         {
             EnableValidation = enableValidation;
             SuppressConvertTypeErrors = suppressConvertTypeErrors;
@@ -101,7 +102,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     .Select(x => x.ErrorMessage)
                     .Aggregate((item, next) => next + "; " + item);
 
-                throw new ValidationException($"Row: {row + 1}; {aggregatedErrors}");
+                throw new TableMappingException($"Row: {row + 1}; {aggregatedErrors}", row);
             }
         }
 
@@ -109,7 +110,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
         {
             if (RowsLimit.HasValue && row > RowsLimit)
             {
-                throw new InvalidOperationException("Import is limited to " + RowsLimit + " records");
+                throw new TableMappingException("Import is limited to " + RowsLimit + " records", row);
             }
         }
 

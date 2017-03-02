@@ -55,6 +55,7 @@
     <Compile Include="TableImport\IRowSaver.cs" />
     <Compile Include="TableImport\ITableImporter.cs" />
     <Compile Include="TableImport\TableImporterBase.cs" />
+    <Compile Include="TableMappingException.cs" />
     <Compile Include="TableMapping\CsvMapper.cs" />
     <Compile Include="TableMapping\ITableMapper.cs" />
     <Compile Include="TableMapping\TableMapperBase.cs" />

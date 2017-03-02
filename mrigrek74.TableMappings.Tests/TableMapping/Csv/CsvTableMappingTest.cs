@@ -129,13 +129,13 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             {
                 var items = mapper.Map(ValidationTestCsvPath);
             }
-            catch (ValidationException vex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(vex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
 
-            Assert.Fail("Validation Exception has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
 
@@ -147,12 +147,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 var mapper = new CsvMapper<TestClass>(false, true, 99);
                 var items = mapper.Map(TestCsvPath);
             }
-            catch (InvalidOperationException ioex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(ioex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("InvalidOperationException has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
         [TestMethod]
@@ -181,12 +181,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
 
                 SimpleMappingTrace(items, TestCsvPath);
             }
-            catch (InvalidOperationException ex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(ex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("Exception has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
     }

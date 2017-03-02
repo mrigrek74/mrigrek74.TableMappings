@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using mrigrek74.TableMappings.Core.TableImport;
 
 namespace mrigrek74.TableMappings.Tests.TableImport.Csv
@@ -7,7 +9,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
     {
         //private Entities _db = new Entities();
         private readonly List<TestClass> _tempList = new List<TestClass>();
-        private const int InsertChunk = 500;
+        private const int InsertChunk = 25;
 
         public TestInsertSaver()
         {
@@ -21,6 +23,11 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
             {
                 //_db.TestClass.AddRange(_tempList);
                 //_db.SaveChanges();
+
+                Trace.WriteLine($"Saved {InsertChunk} records");
+                Trace.WriteLine($"Last record: TestInt={row.TestInt};" +
+                                $"TestString={row.TestString};TestDateTime={row.TestDateTime}...");
+
                 _tempList.Clear();
 
                 //_db.Dispose();
@@ -33,6 +40,14 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         {
             //_db.TestClass.AddRange(_tempList);
             //_db.SaveChanges();
+
+            Trace.WriteLine($"Saved {_tempList.Count} records");
+            var last = _tempList.LastOrDefault();
+            if (last != null)
+            {
+                Trace.WriteLine($"Last record: TestInt={last.TestInt};" +
+                                $"TestString={last.TestString};TestDateTime={last.TestDateTime}...");}
+
             _tempList.Clear();
         }
 

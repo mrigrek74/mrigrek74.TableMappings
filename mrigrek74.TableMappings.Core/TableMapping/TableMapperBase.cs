@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace mrigrek74.TableMappings.Core.TableMapping
 {
-    public abstract class TableMapperBase<T>: ITableMapper<T>
+    public abstract class TableMapperBase<T> : ITableMapper<T>
     {
         protected bool EnableValidation;
         protected bool SuppressConvertTypeErrors;
@@ -71,15 +71,16 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     .Select(x => x.ErrorMessage)
                     .Aggregate((item, next) => next + "; " + item);
 
-                throw new ValidationException($"Row: {row + 1}; {aggregatedErrors}");
+                var r = row + 1;
+                throw new TableMappingException($"Row: {r}; {aggregatedErrors}", r);
             }
         }
 
         protected void ThrowIfRowsLimitEnabled(int row)
         {
-            if (RowsLimit.HasValue && row  > RowsLimit)
+            if (RowsLimit.HasValue && row > RowsLimit)
             {
-                throw new InvalidOperationException("Import is limited to " + RowsLimit + " records");
+                throw new TableMappingException("Import is limited to " + RowsLimit + " records", row);
             }
         }
 

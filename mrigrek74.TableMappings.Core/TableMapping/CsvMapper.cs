@@ -60,7 +60,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                 {
                     header = parser.ReadFields();
                     if (header == null)
-                        throw new InvalidOperationException("Header row is empty");
+                        throw new TableMappingException("Header row is empty", row);
                 }
                 else
                 {

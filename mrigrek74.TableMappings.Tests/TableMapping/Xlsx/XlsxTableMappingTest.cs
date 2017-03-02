@@ -129,13 +129,13 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             {
                 var items = mapper.Map(ValidationTestXlsxPath);
             }
-            catch (ValidationException vex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(vex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
 
-            Assert.Fail("Validation Exception has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
 
@@ -147,12 +147,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
                 var mapper = new XlsxMapper<TestClass>(false, true, 99);
                 var items = mapper.Map(TestXlsxPath);
             }
-            catch (InvalidOperationException ioex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(ioex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("InvalidOperationException has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
         [TestMethod]
@@ -182,12 +182,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
 
                 SimpleMappingTrace(items, TestXlsxPath);
             }
-            catch (InvalidOperationException ex)
+            catch (TableMappingException ex)
             {
-                Trace.WriteLine(ex.Message);
+                Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("Exception has not been thrown");
+            Assert.Fail("TableMappingException has not been thrown");
         }
 
     }

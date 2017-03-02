@@ -8,16 +8,23 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace mrigrek74.TableMappings.Core.TableImport
 {
-    public class CsvTableImporter<T>: TableImporterBase<T>
+    public class CsvTableImporter<T> : TableImporterBase<T>
     {
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvTableImporter(IRowSaver<T> rowSaver): base(rowSaver)
+        public CsvTableImporter(IRowSaver<T> rowSaver) : base(rowSaver)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
+
+        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval) : base(rowSaver, eventInterval)
+        {
+            _encoding = Encoding.UTF8;
+            _delimiters = new[] { ";" };
+        }
+
 
         public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation)
             : base(rowSaver, eventInterval, enableValidation)
@@ -53,7 +60,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
             int row = 0;
             string[] header = { };
 
-           
+
             while (!parser.EndOfData)
             {
                 if (cancellationToken.HasValue
@@ -66,7 +73,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                 {
                     header = parser.ReadFields();
                     if (header == null)
-                        throw new InvalidOperationException("Header row is empty");
+                        throw new TableMappingException("Header row is empty" , row);
                 }
                 else
                 {
