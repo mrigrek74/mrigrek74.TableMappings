@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using mrigrek74.TableMappings.Core.Epplus.TableExport;
 using mrigrek74.TableMappings.Core.TableExport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

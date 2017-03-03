@@ -9,7 +9,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
     {
         //private Entities _db = new Entities();
         private readonly List<TestClass> _tempList = new List<TestClass>();
-        private const int InsertChunk = 25;
+        private const int InsertChunk = 25;//1000
 
         public TestInsertSaver()
         {

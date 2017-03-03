@@ -10,49 +10,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
 {
-    /// <summary>
-    /// Summary description for XlsxTableMapping
-    /// </summary>
     [TestClass]
     public class XlsxTableMappingTest
     {
-        public XlsxTableMappingTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
         private const string TestXlsxPath = "TableMapping/Xlsx/Test.xlsx";
+        private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTest.xlsx";
+        private const string SuppressConvertTypeErrorsTestXlsxPath
+            = "TableMapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
 
         private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
@@ -117,8 +81,6 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             [ColumnName("Test Int")]
             public int TestInt { get; set; }
         }
-        private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTest.xlsx";
-
 
         [TestMethod]
         public void MappingWithValidation()
@@ -166,10 +128,6 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             SimpleMappingTrace(items, TestXlsxPath);
         }
 
-
-        private const string SuppressConvertTypeErrorsTestXlsxPath
-            = "TableMapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
-
         [TestMethod]
         public void MappingWithSuppressConvertTypeErrors()
         {
@@ -189,6 +147,5 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             }
             Assert.Fail("TableMappingException has not been thrown");
         }
-
     }
 }

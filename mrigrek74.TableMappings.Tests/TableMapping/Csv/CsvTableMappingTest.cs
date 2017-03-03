@@ -1,67 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using mrigrek74.TableMappings.Core;
 using mrigrek74.TableMappings.Core.TableMapping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
 {
-    /// <summary>
-    /// Summary description for CsvTableMapping
-    /// </summary>
     [TestClass]
     public class CsvTableMappingTest
     {
-        public CsvTableMappingTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
+        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
+        private const string ValidationTestCsvPath = "TableMapping/Csv/ValidationTest.csv";
+        private const string SuppressConvertTypeErrorsTestCsvPath = "TableMapping/Csv/SuppressConvertTypeErrorsTest.csv";
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            var culture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            //var culture = new CultureInfo("en-US");
+            //Thread.CurrentThread.CurrentCulture = culture;
+            //Thread.CurrentThread.CurrentUICulture = culture;
+            //CultureInfo.DefaultThreadCurrentCulture = culture;
+            //CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-
-        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
+       
 
         private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
@@ -98,7 +62,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             var mapper = new CsvMapper<TestClass>();
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
-            Assert.IsTrue(items.Any(), "items empty");
+            Assert.IsTrue(items.Any(), "Items empty");
 
             SimpleMappingTrace(items , TestCsvPath);
         }
@@ -112,7 +76,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 var items = mapper.Map(fs);
 
                 Assert.IsNotNull(items, "Result is null");
-                Assert.IsTrue(items.Any(), "items empty");
+                Assert.IsTrue(items.Any(), "Result empty");
 
                 SimpleMappingTrace(items, TestCsvPath);
             }
@@ -127,7 +91,6 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             [ColumnName("Test Int")]
             public int TestInt { get; set; }
         }
-        private const string ValidationTestCsvPath = "TableMapping/Csv/ValidationTest.csv";
 
         [TestMethod]
         public void MappingWithValidation()
@@ -144,7 +107,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 return;
             }
 
-            Assert.Fail("TableMappingException has not been thrown");
+            Assert.Fail($"{nameof(TableMappingException)} has not been thrown");
         }
 
 
@@ -161,7 +124,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("TableMappingException has not been thrown");
+            Assert.Fail($"{nameof(TableMappingException)} has not been thrown");
         }
 
         [TestMethod]
@@ -170,13 +133,11 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             var mapper = new CsvMapper<TestClass>(false, true, 100);
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
-            Assert.IsTrue(items.Any(), "items empty");
+            Assert.IsTrue(items.Any(), "Items empty");
 
             SimpleMappingTrace(items, TestCsvPath);
         }
 
-
-        private const string SuppressConvertTypeErrorsTestCsvPath = "TableMapping/Csv/SuppressConvertTypeErrorsTest.csv";
 
         [TestMethod]
         public void MappingWithSuppressConvertTypeErrors()
@@ -186,7 +147,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 var mapper = new CsvMapper<TestClass>(false, false, null);
                 var items = mapper.Map(SuppressConvertTypeErrorsTestCsvPath);
                 Assert.IsNotNull(items, "Result is null");
-                Assert.IsTrue(items.Any(), "items empty");
+                Assert.IsTrue(items.Any(), "Items empty");
 
                 SimpleMappingTrace(items, TestCsvPath);
             }
@@ -195,8 +156,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Trace.WriteLine($"{ex.Message}; Row {ex.Row}");
                 return;
             }
-            Assert.Fail("TableMappingException has not been thrown");
+            Assert.Fail($"{nameof(TableMappingException)} has not been thrown");
         }
-
     }
 }
