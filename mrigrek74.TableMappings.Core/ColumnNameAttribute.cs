@@ -9,7 +9,7 @@ namespace mrigrek74.TableMappings.Core
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnNameAttribute : Attribute
     {
-        public string ColumnName { get; private set; }
+        public string ColumnName { get; }
 
 
         public ColumnNameAttribute(string columnName)

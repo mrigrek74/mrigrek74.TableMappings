@@ -1,1 +1,5 @@
-Список ошибок
+Список ошибок?
+Маппинг по позициям?
+Класс параметров в конструкторы int? eventInterval, bool enableValidation,
+            bool suppressConvertTypeErrors,
+            int? rowsLimit

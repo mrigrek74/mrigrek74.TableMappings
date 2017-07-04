@@ -9,8 +9,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
     {
         event EventHandler<DocumentImportEventArgs> Progress;
         void Import(string path);
-       void Import(Stream stream);
-       Task ImportAsync(string path, CancellationToken cancellationToken);
-       Task ImportAsync(Stream stream, CancellationToken cancellationToken);
+        void Import(Stream stream);
+        Task ImportAsync(string path, CancellationToken cancellationToken);
+        Task ImportAsync(Stream stream, CancellationToken cancellationToken);
     }
 }

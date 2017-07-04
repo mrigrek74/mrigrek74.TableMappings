@@ -65,14 +65,14 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
             var header = new string[sheet.Dimension.End.Column];
             for (var column = 1; column <= sheet.Dimension.End.Column; column++)
             {
-                header[column - 1] = sheet.Cells[1, column].Text;
+                header[column - 1] = sheet.Cells[1, column].Text?.ToLower() ?? string.Empty;
             }
 
             for (var row = 2; row <= sheet.Dimension.End.Row; row++)
             {
                 ThrowIfRowsLimitEnabled(row - 1);
 
-                var rowResult = new StringDictionary();
+                var rowResult = new Dictionary<string, string>();
                 for (var column = 1; column <= sheet.Dimension.End.Column; column++)
                 {
                     rowResult[header[column - 1]] = sheet.Cells[row, column].Text;

@@ -4,7 +4,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
 {
     public class DocumentImportEventArgs : EventArgs
     {
-        public int Rows { get; private set; }
+        public int Rows { get; }
 
         public DocumentImportEventArgs(int rows)
         {

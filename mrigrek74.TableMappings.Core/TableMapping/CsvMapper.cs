@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Microsoft.VisualBasic.FileIO;
 
@@ -58,15 +58,15 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                 if (row == 0)
                 {
                     header = parser.ReadFields();
-                    if (header == null)
-                        throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                    header = header?.Select(x => x.ToLower()).ToArray() 
+                        ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
                 }
                 else
                 {
                     var fields = parser.ReadFields();
                     if (fields == null)
                         continue;
-                    var rowResult = new StringDictionary();
+                    var rowResult = new Dictionary<string, string>();
                     for (int i = 0; i < fields.Length; i++)
                     {
                         var field = fields[i];

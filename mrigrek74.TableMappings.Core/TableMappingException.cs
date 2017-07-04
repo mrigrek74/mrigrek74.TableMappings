@@ -4,7 +4,7 @@ namespace mrigrek74.TableMappings.Core
 {
     public class TableMappingException : Exception
     {
-        public int Row { get; private set; }
+        public int Row { get; }
 
         public TableMappingException(int row)
         {

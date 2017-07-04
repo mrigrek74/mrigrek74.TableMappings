@@ -6,6 +6,8 @@ using System.Linq;
 using mrigrek74.TableMappings.Core;
 using mrigrek74.TableMappings.Core.TableMapping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
+using System.Globalization;
 
 namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
 {
@@ -19,11 +21,11 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            //var culture = new CultureInfo("en-US");
-            //Thread.CurrentThread.CurrentCulture = culture;
-            //Thread.CurrentThread.CurrentUICulture = culture;
-            //CultureInfo.DefaultThreadCurrentCulture = culture;
-            //CultureInfo.DefaultThreadCurrentUICulture = culture;
+            var culture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
        
 

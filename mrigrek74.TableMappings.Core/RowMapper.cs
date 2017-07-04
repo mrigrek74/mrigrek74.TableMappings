@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -30,14 +29,14 @@ namespace mrigrek74.TableMappings.Core
             }
         }
 
-        public T MapByColNames(StringDictionary row, int? rowNumber = null, bool suppressErrors = true)
+        public T MapByColNames(Dictionary<string, string> row, int? rowNumber = null, bool suppressErrors = true)
         {
             var o = (T)Activator.CreateInstance(typeof(T));
             LoadByColNames(o, row, rowNumber, suppressErrors);
             return o;
         }
 
-        public IEnumerable<T> MapByColNames(IEnumerable<StringDictionary> rows, int? rowNumber = null,
+        public IEnumerable<T> MapByColNames(IEnumerable<Dictionary<string, string>> rows, int? rowNumber = null,
             bool suppressErrors = true)
         {
             var result = rows.Select(x =>
@@ -49,7 +48,7 @@ namespace mrigrek74.TableMappings.Core
             return result;
         }
 
-        private void LoadByColNames(T target, StringDictionary fields, int? rowNumber, bool supressErrors)
+        private void LoadByColNames(T target, Dictionary<string, string> fields, int? rowNumber, bool supressErrors)
         {
             foreach (var property in _properties)
             {

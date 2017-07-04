@@ -29,7 +29,6 @@ namespace mrigrek74.TableMappings.Core
                 source = "=\"" + source + "\"";
             }
 
-
             return source;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -33,22 +32,28 @@ namespace mrigrek74.TableMappings.Core.TableImport
             _delimiters = new[] { ";" };
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation,
+            bool suppressConvertTypeErrors,
+            int? rowsLimit)
             : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
+        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation,
+            bool suppressConvertTypeErrors,
+            int? rowsLimit,
             string[] delimiters) : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = delimiters;
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int eventInterval, bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters, Encoding encoding) : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public CsvTableImporter(IRowSaver<T> rowSaver, int eventInterval, bool enableValidation,
+            bool suppressConvertTypeErrors, int? rowsLimit,
+            string[] delimiters, Encoding encoding) 
+            : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = encoding;
             _delimiters = delimiters;
@@ -80,7 +85,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     var fields = parser.ReadFields();
                     if (fields == null)
                         continue;
-                    var rowResult = new StringDictionary();
+                    var rowResult = new Dictionary<string, string>();
                     for (int i = 0; i < fields.Length; i++)
                     {
                         var field = fields[i];
@@ -115,8 +120,6 @@ namespace mrigrek74.TableMappings.Core.TableImport
                 ProcessImport(parser);
             }
         }
-
-
 
         public override void Import(Stream stream)
         {

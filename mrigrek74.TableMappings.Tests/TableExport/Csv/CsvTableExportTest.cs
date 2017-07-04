@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using mrigrek74.TableMappings.Core.TableExport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,18 +12,29 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Csv
     [TestClass]
     public class CsvTableExportTest
     {
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            var culture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+        }
+
         [TestMethod]
         public void TestMethod1()
         {
+            const string fname = "Exported.csv";
             var list = new List<TestClass>
             {
                 new TestClass
                 {
                     TestString = "@@",
                     TestInt = 1,
-                    TestGuid = Guid.NewGuid(),
+                    TestGuid = new Guid("a6f6f6fd-7687-48a5-8e9e-c9ce3ae7f093"),
                     TestFloat = 2.1f,
-                    TestDateTime = DateTime.Now
+                    TestDateTime = DateTime.Parse("04.07.2017 10:35:17")
                 },
                 new TestClass
                 {
@@ -31,7 +46,21 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Csv
             };
 
             var exporter = new CsvTableExporter<TestClass>();
-            exporter.Export(list, "Exported.csv");
+            exporter.Export(list, fname);
+
+            if(!File.Exists(fname))
+                Assert.Fail($"{fname} is not exists");
+
+            var lines =File.ReadAllLines(fname);
+
+            if(!lines.Any())
+                Assert.Fail("No lines");
+
+            if(lines.Length != 3)
+                Assert.Fail("lines.Length != 3");
+
+            Assert.AreEqual("test string;test int;test int?;test float;test float?;test decimal;test decimal?;test double;test double?;test guid;test guid?;test datetime;test datetime?;", lines[0]);
+            Assert.AreEqual("@@;1;;2,1;;0;;0;;a6f6f6fd-7687-48a5-8e9e-c9ce3ae7f093;;04.07.2017 10:35:17;;", lines[1]);
         }
     }
 }

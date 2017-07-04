@@ -9,7 +9,6 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
     [TestClass]
     public class CsvTableImportTest
     {
-
         private const string TestCsvPath = "TableMapping/Csv/Test.csv";
 
         [TestMethod]

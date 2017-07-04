@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using mrigrek74.TableMappings.Core.Epplus.TableExport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,6 +12,7 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Xlsx
         [TestMethod]
         public void TestMethod1()
         {
+            const string fname = "Exported.xlsx";
             var list = new List<TestClass>
             {
                 new TestClass
@@ -30,7 +32,9 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Xlsx
             };
 
             var exporter = new XlsxTableExporter<TestClass>();
-            exporter.Export(list, "Exported.xlsx");
+            exporter.Export(list, fname);
+            if (!File.Exists(fname))
+                Assert.Fail($"{fname} is not exists");
         }
     }
 }
