@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace mrigrek74.TableMappings.Core.TableExport
 {
@@ -12,18 +13,18 @@ namespace mrigrek74.TableMappings.Core.TableExport
         {
             Type t = typeof(T);
             var props = t.GetProperties();
-            for (int j = 0; j < props.Length; j++)
+            foreach (var p in props)
             {
-                var colName = ColumnNameAttribute.GetColumnName(t, props[j]);
+                var colName = p.GetColumnName();
                 sr.Write(colName.ToCsvFormat(_delimiter) + _delimiter);
             }
             sr.WriteLine();
 
-            for (int i = 0; i < rows.Count; i++)
+            foreach (var row in rows)
             {
-                for (int j = 0; j < props.Length; j++)
+                foreach (var p in props)
                 {
-                    var val = props[j].GetValue(rows[i], null);
+                    var val = p.GetValue(row, null);
                     var valStr = (val ?? string.Empty).ToString();
                     sr.Write(valStr.ToCsvFormat(_delimiter) + _delimiter);
                 }

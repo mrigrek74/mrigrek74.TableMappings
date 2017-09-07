@@ -16,7 +16,7 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableExport
             for (int j = 0; j < props.Length; j++)
             {
                 sheet.Cells[1, j + 1].Value =
-                    ColumnNameAttribute.GetColumnName(t, props[j]);
+                    props[j].GetColumnName();
             }
 
             for (int i = 0; i < rows.Count; i++)

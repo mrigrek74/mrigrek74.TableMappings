@@ -21,7 +21,7 @@ namespace mrigrek74.TableMappings.Core
                 if (!property.CanWrite)
                     continue;
 
-                var columnName = ColumnNameAttribute.GetColumnName(targetType, property);
+                var columnName = property.GetColumnName();
                 if (columnName == null)
                     continue;
 
