@@ -12,12 +12,18 @@
         public bool EnableValidation { get; set; }
         public bool SuppressConvertTypeErrors { get; set; } = true;
         public int? RowsLimit { get; set; }
-        public bool HasHeader { get; set; }
+
+        private bool _hasHeader;
+
+        public bool HasHeader
+        {
+            get => _hasHeader;
+            set => _hasHeader = MappingMode == MappingMode.ByName || value;
+        }
 
         public MappingOptions()
         {
-            if (MappingMode == MappingMode.ByName)
-                HasHeader = true;
+
         }
     }
 }

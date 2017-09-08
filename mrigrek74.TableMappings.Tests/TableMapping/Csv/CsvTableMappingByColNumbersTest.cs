@@ -29,7 +29,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         }
        
 
-        private void SimpleMappingTrace(ICollection<TestClass2> items, string path)
+        private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
             Trace.WriteLine(path);
             Trace.WriteLine("");
@@ -61,7 +61,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new CsvMapper<TestClass2>(new MappingOptions { MappingMode = MappingMode.ByNumber});
+            var mapper = new CsvMapper<TestClass>(new MappingOptions
+            {
+                MappingMode = MappingMode.ByName,
+                //SuppressConvertTypeErrors = false,
+                HasHeader = false
+            });
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");

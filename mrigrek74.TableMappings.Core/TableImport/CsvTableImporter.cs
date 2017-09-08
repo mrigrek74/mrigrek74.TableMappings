@@ -34,9 +34,12 @@ namespace mrigrek74.TableMappings.Core.TableImport
 
                 if (row == 0)
                 {
-                    header = parser.ReadFields();
-                    if (header == null)
-                        throw new TableMappingException(Strings.HeaderRowIsEmpty , row);
+                    if (MappingOptions.HasHeader)
+                    {
+                        header = parser.ReadFields();
+                        if (header == null)
+                            throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                    }
                 }
                 else
                 {

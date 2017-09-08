@@ -29,9 +29,13 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 
                 if (row == 0)
                 {
-                    header = parser.ReadFields();
-                    header = header?.Select(x => x.ToLower()).ToArray() 
-                        ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                    if (MappingOptions.HasHeader)
+                    {
+
+                        header = parser.ReadFields();
+                        header = header?.Select(x => x.ToLower()).ToArray()
+                                 ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                    }
                 }
                 else
                 {
