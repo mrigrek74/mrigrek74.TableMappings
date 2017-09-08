@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using mrigrek74.TableMappings.Core;
 using mrigrek74.TableMappings.Core.Epplus.TableMapping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,6 +18,16 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTest.xlsx";
         private const string SuppressConvertTypeErrorsTestXlsxPath
             = "TableMapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
+
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            var culture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+        }
 
         private void SimpleMappingTrace(ICollection<TestClass> items, string path)
         {
@@ -50,7 +61,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new XlsxMapper<TestClass>();
+            var mapper = new XlsxMapper<TestClass>(MappingMode.ByName);
             var items = mapper.Map(TestXlsxPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
@@ -61,7 +72,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         [TestMethod]
         public void SimpleMappingByStream()
         {
-            var mapper = new XlsxMapper<TestClass>();
+            var mapper = new XlsxMapper<TestClass>(MappingMode.ByName);
             using (var fs = new FileStream(TestXlsxPath, FileMode.Open))
             {
                 var items = mapper.Map(fs);
@@ -85,7 +96,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         [TestMethod]
         public void MappingWithValidation()
         {
-            var mapper = new XlsxMapper<ValidationTestClass>(true);
+            var mapper = new XlsxMapper<ValidationTestClass>(MappingMode.ByName, true);
 
             try
             {
@@ -106,7 +117,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         {
             try
             {
-                var mapper = new XlsxMapper<TestClass>(false, true, 99);
+                var mapper = new XlsxMapper<TestClass>(MappingMode.ByName, false, true, 99);
                 var items = mapper.Map(TestXlsxPath);
             }
             catch (TableMappingException ex)
@@ -120,7 +131,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         [TestMethod]
         public void MappingWithRowLimit2()
         {
-            var mapper = new XlsxMapper<TestClass>(false, true, 100);
+            var mapper = new XlsxMapper<TestClass>(MappingMode.ByName, false, true, 100);
             var items = mapper.Map(TestXlsxPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
@@ -133,7 +144,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         {
             try
             {
-                var mapper = new XlsxMapper<TestClass>(false, false, null);
+                var mapper = new XlsxMapper<TestClass>(MappingMode.ByName, false, false, null);
                 var items = mapper.Map(SuppressConvertTypeErrorsTestXlsxPath);
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");

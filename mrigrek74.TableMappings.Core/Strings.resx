@@ -132,4 +132,10 @@
   <data name="ColumnNameIsRequired" xml:space="preserve">
     <value>Column name is required</value>
   </data>
+  <data name="ColumnNameMustBeUnique" xml:space="preserve">
+    <value>Column name must be unique</value>
+  </data>
+  <data name="ColumnNumberMustBeUnique" xml:space="preserve">
+    <value>Column number must be unique</value>
+  </data>
 </root>

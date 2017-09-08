@@ -44,12 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColumnNameAttribute.cs" />
+    <Compile Include="ColumnNamesRowMapper.cs" />
     <Compile Include="ColumnNumberAttribute.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="MappingMode.cs" />
+    <Compile Include="RowMapperBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyInfoExts.cs" />
-    <Compile Include="RowMapper.cs" />
+    <Compile Include="ColumnNumbersRowMapper.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

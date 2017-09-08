@@ -1,5 +1,5 @@
 Список ошибок?
-Маппинг по позициям?
 Класс параметров в конструкторы int? eventInterval, bool enableValidation,
             bool suppressConvertTypeErrors,
             int? rowsLimit
+требовать или нет заголовок при мапинге по позициям

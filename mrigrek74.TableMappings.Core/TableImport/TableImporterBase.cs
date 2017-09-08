@@ -25,7 +25,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
             }
         }
 
-        protected RowMapper<T> RowMapper = new RowMapper<T>();
+        protected readonly RowMapperBase<T> RowMapper;
         protected IRowSaver<T> RowSaver;
 
         private void TypeDescriptorAddProviderTransparent()
@@ -43,28 +43,44 @@ namespace mrigrek74.TableMappings.Core.TableImport
             }
         }
 
-        protected TableImporterBase(IRowSaver<T> rowSaver)
+        protected TableImporterBase(MappingMode mappingMode, IRowSaver<T> rowSaver)
         {
             EnableValidation = false;
             SuppressConvertTypeErrors = true;
             RowsLimit = null;
             RowSaver = rowSaver;
+
+            switch (mappingMode)
+            {
+                case MappingMode.ByName:
+                    RowMapper = new ColumnNamesRowMapper<T>();
+                    break;
+                //case MappingMode.ByNumber:
+                //    RowMapper = new ColumnNumbersRowMapper<T>();
+                //    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mappingMode), mappingMode, null);
+            }
 
             TypeDescriptorAddProviderTransparent();
         }
 
-        protected TableImporterBase(IRowSaver<T> rowSaver, int? eventInterval)
+        protected TableImporterBase(MappingMode mappingMode, IRowSaver<T> rowSaver,
+            int? eventInterval) : this(mappingMode, rowSaver)
         {
             EnableValidation = false;
             SuppressConvertTypeErrors = true;
             RowsLimit = null;
-            RowSaver = rowSaver;
             _eventInterval = eventInterval;
 
             TypeDescriptorAddProviderTransparent();
         }
 
-        protected TableImporterBase(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation)
+        protected TableImporterBase(
+            MappingMode mappingMode,
+            IRowSaver<T> rowSaver,
+            int? eventInterval,
+            bool enableValidation): this(mappingMode, rowSaver)
         {
             EnableValidation = enableValidation;
             SuppressConvertTypeErrors = true;
@@ -76,13 +92,16 @@ namespace mrigrek74.TableMappings.Core.TableImport
         }
 
 
-        protected TableImporterBase(IRowSaver<T> rowSaver, int? eventInterval,
+        protected TableImporterBase(
+            MappingMode mappingMode,
+            IRowSaver<T> rowSaver,
+            int? eventInterval,
             bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+            : this(mappingMode, rowSaver)
         {
             EnableValidation = enableValidation;
             SuppressConvertTypeErrors = suppressConvertTypeErrors;
             RowsLimit = rowsLimit;
-            RowSaver = rowSaver;
             _eventInterval = eventInterval;
 
             TypeDescriptorAddProviderTransparent();
@@ -110,7 +129,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
         {
             if (RowsLimit.HasValue && row > RowsLimit)
             {
-                throw new TableMappingException($"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
+                throw new TableMappingException(
+                    $"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
             }
         }
 

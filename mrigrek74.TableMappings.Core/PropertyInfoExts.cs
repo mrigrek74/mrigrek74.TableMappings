@@ -11,8 +11,8 @@ namespace mrigrek74.TableMappings.Core
         public static string GetColumnName(this PropertyInfo src)
             => src.GetAttr<ColumnNameAttribute>()?.ColumnName ?? src.Name;
 
-        public static int GetColumnNumber(this PropertyInfo src)
-            => src.GetAttr<ColumnNumberAttribute>()?.ColumnNumber ?? -1;
+        public static int GetColumnNumber(this PropertyInfo src, int defaultValue)
+            => src.GetAttr<ColumnNumberAttribute>()?.ColumnNumber ?? defaultValue;
 
         public static T GetAttr<T>(this PropertyInfo src) where T : Attribute
         {

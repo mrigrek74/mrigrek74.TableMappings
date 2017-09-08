@@ -21,7 +21,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            var culture = new CultureInfo("en-US");
+            var culture = new CultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentCulture = culture;
@@ -61,7 +61,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new CsvMapper<TestClass>();
+            var mapper = new CsvMapper<TestClass>(MappingMode.ByNumber);
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");
@@ -72,7 +72,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void SimpleMappingByStream()
         {
-            var mapper = new CsvMapper<TestClass>();
+            var mapper = new CsvMapper<TestClass>(MappingMode.ByName);
             using (var fs = new FileStream(TestCsvPath, FileMode.Open))
             {
                 var items = mapper.Map(fs);
@@ -97,7 +97,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void MappingWithValidation()
         {
-            var mapper = new CsvMapper<ValidationTestClass>(true);
+            var mapper = new CsvMapper<ValidationTestClass>(MappingMode.ByName, true);
 
             try
             {
@@ -118,7 +118,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         {
             try
             {
-                var mapper = new CsvMapper<TestClass>(false, true, 99);
+                var mapper = new CsvMapper<TestClass>(MappingMode.ByName,false, true, 99);
                 var items = mapper.Map(TestCsvPath);
             }
             catch (TableMappingException ex)
@@ -132,7 +132,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void MappingWithRowLimit2()
         {
-            var mapper = new CsvMapper<TestClass>(false, true, 100);
+            var mapper = new CsvMapper<TestClass>(MappingMode.ByName,false, true, 100);
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");
@@ -146,7 +146,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         {
             try
             {
-                var mapper = new CsvMapper<TestClass>(false, false, null);
+                var mapper = new CsvMapper<TestClass>(MappingMode.ByName,false, false, null);
                 var items = mapper.Map(SuppressConvertTypeErrorsTestCsvPath);
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "Items empty");

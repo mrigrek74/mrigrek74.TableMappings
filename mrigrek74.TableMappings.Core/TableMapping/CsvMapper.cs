@@ -11,35 +11,40 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvMapper()
+        public CsvMapper(MappingMode mappingMode) : base(mappingMode)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvMapper(bool enableValidation)
-            : base(enableValidation)
+        public CsvMapper(MappingMode mappingMode, bool enableValidation)
+            : base(mappingMode, enableValidation)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvMapper(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
-            : base(enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public CsvMapper(MappingMode mappingMode,
+            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvMapper(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters) : base(enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public CsvMapper(MappingMode mappingMode, 
+            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
+            string[] delimiters) 
+            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = delimiters;
         }
 
-        public CsvMapper(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters,Encoding encoding) : base(enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public CsvMapper(MappingMode mappingMode, 
+            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
+            string[] delimiters,Encoding encoding) 
+            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = encoding;
             _delimiters = delimiters;
@@ -66,14 +71,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     var fields = parser.ReadFields();
                     if (fields == null)
                         continue;
-                    var rowResult = new Dictionary<string, string>();
-                    for (int i = 0; i < fields.Length; i++)
-                    {
-                        var field = fields[i];
-                        rowResult[header[i]] = field;
-                    }
 
-                    var entity = RowMapper.MapByColNames(rowResult, row + 1, SuppressConvertTypeErrors);
+                    var entity = RowMapper.Map(fields, header, row + 1, SuppressConvertTypeErrors);
 
                     ValidateRow(entity, row);
 

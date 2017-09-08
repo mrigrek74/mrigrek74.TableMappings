@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using mrigrek74.TableMappings.Core;
 using mrigrek74.TableMappings.Core.TableImport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +16,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public void ImportCsvFromPath()
         {
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(saver))
+            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver))
             {
                 importer.Import(TestCsvPath);
             }
@@ -25,7 +26,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public void ImportCsvFromPathAndEvents()
         {
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(saver, 15))
+            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver, 15))
             {
                 importer.Progress += Importer_Progress;
                 importer.Import(TestCsvPath);
@@ -43,7 +44,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         {
             var tokenSource = new CancellationTokenSource(60000);
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(saver))
+            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver))
             {
                 await importer.ImportAsync(TestCsvPath, tokenSource.Token);
             }
@@ -54,7 +55,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         {
             var tokenSource = new CancellationTokenSource(60000);
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(saver, 15))
+            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver, 15))
             {
                 importer.Progress += Importer_Progress;
                 await importer.ImportAsync(TestCsvPath, tokenSource.Token);

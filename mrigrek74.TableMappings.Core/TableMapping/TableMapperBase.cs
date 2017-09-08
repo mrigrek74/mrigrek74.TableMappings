@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -12,7 +13,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         protected bool SuppressConvertTypeErrors;
         protected int? RowsLimit;
 
-        protected RowMapper<T> RowMapper = new RowMapper<T>();
+        protected readonly RowMapperBase<T> RowMapper;
         private void TypeDescriptorAddProviderTransparent()
         {
             var metadataType = typeof(T)
@@ -28,8 +29,20 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             }
         }
 
-        protected TableMapperBase()
+        protected TableMapperBase(MappingMode mappingMode)
         {
+            switch (mappingMode)
+            {
+                case MappingMode.ByName:
+                    RowMapper = new ColumnNamesRowMapper<T>();
+                    break;
+                case MappingMode.ByNumber:
+                    RowMapper = new ColumnNumbersRowMapper<T>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mappingMode), mappingMode, null);
+            }
+            
             EnableValidation = false;
             SuppressConvertTypeErrors = true;
             RowsLimit = null;
@@ -37,7 +50,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             TypeDescriptorAddProviderTransparent();
         }
 
-        protected TableMapperBase(bool enableValidation)
+        protected TableMapperBase(MappingMode mappingMode, bool enableValidation)
+            :this(mappingMode)
         {
             EnableValidation = enableValidation;
             SuppressConvertTypeErrors = true;
@@ -47,12 +61,13 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         }
 
 
-        protected TableMapperBase(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+        protected TableMapperBase(MappingMode mappingMode,
+            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
+            :this(mappingMode)
         {
             EnableValidation = enableValidation;
             SuppressConvertTypeErrors = suppressConvertTypeErrors;
             RowsLimit = rowsLimit;
-
             TypeDescriptorAddProviderTransparent();
         }
 
@@ -79,7 +94,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         {
             if (RowsLimit.HasValue && row > RowsLimit)
             {
-                throw new TableMappingException($"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
+                throw new TableMappingException(
+                    $"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
             }
         }
 

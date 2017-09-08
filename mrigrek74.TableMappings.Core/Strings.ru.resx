@@ -120,6 +120,12 @@
   <data name="ColumnNameIsRequired" xml:space="preserve">
     <value>columnName обязательно к заполнению</value>
   </data>
+  <data name="ColumnNameMustBeUnique" xml:space="preserve">
+    <value>Имя колонки должно быть уникальным</value>
+  </data>
+  <data name="ColumnNumberMustBeUnique" xml:space="preserve">
+    <value>Номер колонки должен быть уникальным</value>
+  </data>
   <data name="Header row is empty" xml:space="preserve">
     <value>Заголовок отсутствует</value>
   </data>

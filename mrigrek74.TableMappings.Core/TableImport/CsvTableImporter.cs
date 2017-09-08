@@ -12,48 +12,61 @@ namespace mrigrek74.TableMappings.Core.TableImport
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvTableImporter(IRowSaver<T> rowSaver) : base(rowSaver)
+        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver) 
+            : base(mappingMode, rowSaver)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval) : base(rowSaver, eventInterval)
+        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver, int? eventInterval)
+            : base(mappingMode, rowSaver, eventInterval)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation)
-            : base(rowSaver, eventInterval, enableValidation)
+        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver,
+            int? eventInterval, bool enableValidation)
+            : base(mappingMode, rowSaver, eventInterval, enableValidation)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation,
+        public CsvTableImporter(
+            MappingMode mappingMode,
+            IRowSaver<T> rowSaver,
+            int? eventInterval, bool enableValidation,
             bool suppressConvertTypeErrors,
             int? rowsLimit)
-            : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
+            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int? eventInterval, bool enableValidation,
+        public CsvTableImporter(
+            MappingMode mappingMode,
+            IRowSaver<T> rowSaver, 
+            int? eventInterval, bool enableValidation,
             bool suppressConvertTypeErrors,
             int? rowsLimit,
-            string[] delimiters) : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
+            string[] delimiters) 
+            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = Encoding.UTF8;
             _delimiters = delimiters;
         }
 
-        public CsvTableImporter(IRowSaver<T> rowSaver, int eventInterval, bool enableValidation,
+        public CsvTableImporter(
+            MappingMode mappingMode, 
+            IRowSaver<T> rowSaver,
+            int eventInterval, bool enableValidation,
             bool suppressConvertTypeErrors, int? rowsLimit,
             string[] delimiters, Encoding encoding) 
-            : base(rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
+            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _encoding = encoding;
             _delimiters = delimiters;
@@ -85,14 +98,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     var fields = parser.ReadFields();
                     if (fields == null)
                         continue;
-                    var rowResult = new Dictionary<string, string>();
-                    for (int i = 0; i < fields.Length; i++)
-                    {
-                        var field = fields[i];
-                        rowResult[header[i]] = field;
-                    }
-
-                    var entity = RowMapper.MapByColNames(rowResult, row + 1, SuppressConvertTypeErrors);
+                   
+                    var entity = RowMapper.Map(fields, header, row + 1, SuppressConvertTypeErrors);
 
                     ValidateRow(entity, row);
 

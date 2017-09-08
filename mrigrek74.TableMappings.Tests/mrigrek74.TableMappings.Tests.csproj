@@ -61,6 +61,7 @@
     <Compile Include="TableImport\Csv\TestInsertOrUpdateSaver.cs" />
     <Compile Include="TableImport\Csv\TestRemoveAllAndBulkInsertSaver.cs" />
     <Compile Include="TableImport\Csv\TestInsertSaver.cs" />
+    <Compile Include="TableMapping\Csv\CsvTableMappingByColNumbersTest.cs" />
     <Compile Include="TableMapping\Csv\CsvTableMappingTest.cs" />
     <Compile Include="TableMapping\Xlsx\XlsxTableMappingTest.cs" />
     <Compile Include="TestClass.cs" />

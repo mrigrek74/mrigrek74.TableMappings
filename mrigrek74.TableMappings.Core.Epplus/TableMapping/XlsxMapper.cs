@@ -12,33 +12,35 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
     {
         private readonly string _sheetName;
 
-        public XlsxMapper()
+        public XlsxMapper(MappingMode mappingMode) : base(mappingMode)
         {
         }
 
-        public XlsxMapper(bool enableValidation)
-            : base(enableValidation)
+        public XlsxMapper(MappingMode mappingMode, bool enableValidation)
+            : base(mappingMode, enableValidation)
         {
         }
 
-        public XlsxMapper(string sheetName)
-        {
-            _sheetName = sheetName;
-        }
-
-        public XlsxMapper(string sheetName, bool enableValidation)
-         : base(enableValidation)
+        public XlsxMapper(MappingMode mappingMode, string sheetName): base(mappingMode)
         {
             _sheetName = sheetName;
         }
 
-        public XlsxMapper(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
-            : base(enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public XlsxMapper(MappingMode mappingMode, string sheetName, bool enableValidation)
+         : base(mappingMode, enableValidation)
+        {
+            _sheetName = sheetName;
+        }
+
+        public XlsxMapper(MappingMode mappingMode, bool enableValidation,
+            bool suppressConvertTypeErrors, int? rowsLimit)
+            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
         }
 
-        public XlsxMapper(bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit, string sheetName)
-            : base(enableValidation, suppressConvertTypeErrors, rowsLimit)
+        public XlsxMapper(MappingMode mappingMode, bool enableValidation,
+            bool suppressConvertTypeErrors, int? rowsLimit, string sheetName)
+            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
         {
             _sheetName = sheetName;
         }
@@ -72,13 +74,14 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
             {
                 ThrowIfRowsLimitEnabled(row - 1);
 
-                var rowResult = new Dictionary<string, string>();
+                var rowResult = new string[sheet.Dimension.End.Column]; 
+
                 for (var column = 1; column <= sheet.Dimension.End.Column; column++)
                 {
-                    rowResult[header[column - 1]] = sheet.Cells[row, column].Text;
+                    rowResult[column - 1] = sheet.Cells[row, column]?.Value?.ToString();
                 }
 
-                var entity = RowMapper.MapByColNames(rowResult, row, SuppressConvertTypeErrors);
+                var entity = RowMapper.Map(rowResult, header, row, SuppressConvertTypeErrors);
                 ValidateRow(entity, row - 1);
                 result.Add(entity);
             }
