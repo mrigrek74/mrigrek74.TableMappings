@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using mrigrek74.TableMappings.Core.Extensions;
 using mrigrek74.TableMappings.Core.TableExport;
 using OfficeOpenXml;
 

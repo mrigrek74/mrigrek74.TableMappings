@@ -61,7 +61,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new CsvMapper<TestClass2>(MappingMode.ByNumber);
+            var mapper = new CsvMapper<TestClass2>(new MappingOptions { MappingMode = MappingMode.ByNumber});
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");

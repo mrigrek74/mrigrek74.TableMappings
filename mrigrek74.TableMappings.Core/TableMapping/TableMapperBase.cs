@@ -9,29 +9,16 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 {
     public abstract class TableMapperBase<T> : ITableMapper<T>
     {
-        protected bool EnableValidation;
-        protected bool SuppressConvertTypeErrors;
-        protected int? RowsLimit;
+        protected MappingOptions MappingOptions;
 
         protected readonly RowMapperBase<T> RowMapper;
-        private void TypeDescriptorAddProviderTransparent()
-        {
-            var metadataType = typeof(T)
-                .GetCustomAttributes(typeof(MetadataTypeAttribute), true)
-                .OfType<MetadataTypeAttribute>()
-                .FirstOrDefault();
 
-            if (metadataType != null)
-            {
-                TypeDescriptor.AddProviderTransparent(
-                    new AssociatedMetadataTypeTypeDescriptionProvider(typeof(T),
-                    metadataType.MetadataClassType), typeof(T));
-            }
-        }
-
-        protected TableMapperBase(MappingMode mappingMode)
+        protected TableMapperBase(MappingOptions mappingOptions)
         {
-            switch (mappingMode)
+            MappingOptions = mappingOptions ?? throw new ArgumentException(nameof(mappingOptions));
+                
+
+            switch (mappingOptions.MappingMode)
             {
                 case MappingMode.ByName:
                     RowMapper = new ColumnNamesRowMapper<T>();
@@ -40,41 +27,17 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     RowMapper = new ColumnNumbersRowMapper<T>();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(mappingMode), mappingMode, null);
+                    throw new ArgumentOutOfRangeException(
+                        nameof(mappingOptions.MappingMode), mappingOptions.MappingMode, null);
             }
-            
-            EnableValidation = false;
-            SuppressConvertTypeErrors = true;
-            RowsLimit = null;
 
-            TypeDescriptorAddProviderTransparent();
-        }
-
-        protected TableMapperBase(MappingMode mappingMode, bool enableValidation)
-            :this(mappingMode)
-        {
-            EnableValidation = enableValidation;
-            SuppressConvertTypeErrors = true;
-            RowsLimit = null;
-
-            TypeDescriptorAddProviderTransparent();
-        }
-
-
-        protected TableMapperBase(MappingMode mappingMode,
-            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
-            :this(mappingMode)
-        {
-            EnableValidation = enableValidation;
-            SuppressConvertTypeErrors = suppressConvertTypeErrors;
-            RowsLimit = rowsLimit;
-            TypeDescriptorAddProviderTransparent();
+            TypeDescriptorHelper<T>.AddProviderTransparent();
         }
 
 
         protected void ValidateRow(T entity, int row)
         {
-            if (!EnableValidation)
+            if (!MappingOptions.EnableValidation)
                 return;
 
             var context = new ValidationContext(entity, null, null);
@@ -92,13 +55,12 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 
         protected void ThrowIfRowsLimitEnabled(int row)
         {
-            if (RowsLimit.HasValue && row > RowsLimit)
+            if (MappingOptions.RowsLimit.HasValue && row > MappingOptions.RowsLimit)
             {
                 throw new TableMappingException(
-                    $"{Strings.ImportIsLimitedTo} {RowsLimit} {Strings.Records}", row);
+                    $"{Strings.ImportIsLimitedTo} {MappingOptions.RowsLimit} {Strings.Records}", row);
             }
         }
-
 
         public abstract IList<T> Map(string path);
         public abstract IList<T> Map(Stream stream);

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace mrigrek74.TableMappings.Core
+namespace mrigrek74.TableMappings.Core.Extensions
 {
    public static class Extensions
     {

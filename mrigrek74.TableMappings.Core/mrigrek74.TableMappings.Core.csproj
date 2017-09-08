@@ -46,12 +46,12 @@
     <Compile Include="ColumnNameAttribute.cs" />
     <Compile Include="ColumnNamesRowMapper.cs" />
     <Compile Include="ColumnNumberAttribute.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="MappingMode.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="MappingOptions.cs" />
     <Compile Include="RowMapperBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyInfoExts.cs" />
+    <Compile Include="Extensions\PropertyInfoExts.cs" />
     <Compile Include="ColumnNumbersRowMapper.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,6 +69,7 @@
     <Compile Include="TableMapping\CsvMapper.cs" />
     <Compile Include="TableMapping\ITableMapper.cs" />
     <Compile Include="TableMapping\TableMapperBase.cs" />
+    <Compile Include="TypeDescriptorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">

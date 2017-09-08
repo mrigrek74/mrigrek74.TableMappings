@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using mrigrek74.TableMappings.Core.Extensions;
 
 namespace mrigrek74.TableMappings.Core.TableExport
 {

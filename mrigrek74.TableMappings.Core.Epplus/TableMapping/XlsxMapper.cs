@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using mrigrek74.TableMappings.Core.TableMapping;
@@ -11,36 +9,8 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
     public class XlsxMapper<T> : TableMapperBase<T>
     {
         private readonly string _sheetName;
-
-        public XlsxMapper(MappingMode mappingMode) : base(mappingMode)
-        {
-        }
-
-        public XlsxMapper(MappingMode mappingMode, bool enableValidation)
-            : base(mappingMode, enableValidation)
-        {
-        }
-
-        public XlsxMapper(MappingMode mappingMode, string sheetName): base(mappingMode)
-        {
-            _sheetName = sheetName;
-        }
-
-        public XlsxMapper(MappingMode mappingMode, string sheetName, bool enableValidation)
-         : base(mappingMode, enableValidation)
-        {
-            _sheetName = sheetName;
-        }
-
-        public XlsxMapper(MappingMode mappingMode, bool enableValidation,
-            bool suppressConvertTypeErrors, int? rowsLimit)
-            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-        }
-
-        public XlsxMapper(MappingMode mappingMode, bool enableValidation,
-            bool suppressConvertTypeErrors, int? rowsLimit, string sheetName)
-            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
+     
+        public XlsxMapper(MappingOptions mappingOptions, string sheetName = null): base(mappingOptions)
         {
             _sheetName = sheetName;
         }
@@ -81,7 +51,7 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                     rowResult[column - 1] = sheet.Cells[row, column]?.Value?.ToString();
                 }
 
-                var entity = RowMapper.Map(rowResult, header, row, SuppressConvertTypeErrors);
+                var entity = RowMapper.Map(rowResult, header, row, MappingOptions.SuppressConvertTypeErrors);
                 ValidateRow(entity, row - 1);
                 result.Add(entity);
             }

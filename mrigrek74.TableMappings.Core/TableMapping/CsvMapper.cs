@@ -11,43 +11,10 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvMapper(MappingMode mappingMode) : base(mappingMode)
+        public CsvMapper(MappingOptions mappingOptions) : base(mappingOptions)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
-        }
-
-        public CsvMapper(MappingMode mappingMode, bool enableValidation)
-            : base(mappingMode, enableValidation)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = new[] { ";" };
-        }
-
-        public CsvMapper(MappingMode mappingMode,
-            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit)
-            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = new[] { ";" };
-        }
-
-        public CsvMapper(MappingMode mappingMode, 
-            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters) 
-            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = delimiters;
-        }
-
-        public CsvMapper(MappingMode mappingMode, 
-            bool enableValidation, bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters,Encoding encoding) 
-            : base(mappingMode, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = encoding;
-            _delimiters = delimiters;
         }
 
         private IList<T> ProcessMap(TextFieldParser parser)
@@ -72,7 +39,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     if (fields == null)
                         continue;
 
-                    var entity = RowMapper.Map(fields, header, row + 1, SuppressConvertTypeErrors);
+                    var entity = RowMapper.Map(fields, header, row + 1, MappingOptions.SuppressConvertTypeErrors);
 
                     ValidateRow(entity, row);
 

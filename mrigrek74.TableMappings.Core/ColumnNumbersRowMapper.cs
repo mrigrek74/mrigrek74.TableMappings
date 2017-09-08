@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using mrigrek74.TableMappings.Core.Extensions;
 
 namespace mrigrek74.TableMappings.Core
 {
@@ -17,7 +17,7 @@ namespace mrigrek74.TableMappings.Core
 
                 var columnNumber = Properties[i].GetColumnNumber(i);
 
-                if(_propNamesColNumbers.ContainsValue(columnNumber))
+                if (_propNamesColNumbers.ContainsValue(columnNumber))
                     throw new InvalidOperationException($"{Strings.ColumnNumberMustBeUnique}: {columnNumber}");
 
                 _propNamesColNumbers[Properties[i].Name] = columnNumber;
@@ -40,17 +40,7 @@ namespace mrigrek74.TableMappings.Core
                 if (string.IsNullOrEmpty(data))
                     continue;
 
-                try
-                {
-                    var o = TypeDescriptor.GetConverter(property.PropertyType)
-                        .ConvertFrom(data);
-                    property.SetValue(target, o);
-                }
-                catch (Exception ex)
-                {
-                    if (!supressErrors)
-                        throw new TableMappingException($"{Strings.Row} {rowNumber}: {ex.Message}", rowNumber ?? 0, ex);
-                }
+                FillProperties(target, property, data, rowNumber, supressErrors);
             }
         }
     }

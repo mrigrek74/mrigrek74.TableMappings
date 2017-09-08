@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using mrigrek74.TableMappings.Core;
+using mrigrek74.TableMappings.Core.Extensions;
 using mrigrek74.TableMappings.Core.TableImport;
 
 namespace mrigrek74.TableMappings.Tests.TableImport.Csv
@@ -8,7 +8,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
     {
         //private Entities _db = new Entities(); 
         private readonly List<TestClass> _tempList = new List<TestClass>();
-        private const int BulkInsertChunk = 1000;
+        private const int BulkInsertChunk = 1_000;
         private bool _needRemoveAll = true;
 
         public TestRemoveAllAndBulkInsertSaver()

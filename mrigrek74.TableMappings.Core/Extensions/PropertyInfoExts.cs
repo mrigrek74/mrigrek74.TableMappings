@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.ModelBinding;
 
-namespace mrigrek74.TableMappings.Core
+namespace mrigrek74.TableMappings.Core.Extensions
 {
     public static class PropertyInfoExts
     {

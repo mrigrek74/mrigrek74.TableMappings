@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,66 +11,12 @@ namespace mrigrek74.TableMappings.Core.TableImport
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver) 
-            : base(mappingMode, rowSaver)
+        public CsvTableImporter(MappingOptions mappingOptions, IRowSaver<T> rowSaver, int? eventInterval = null) 
+            : base(mappingOptions, rowSaver, eventInterval)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
         }
-
-        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver, int? eventInterval)
-            : base(mappingMode, rowSaver, eventInterval)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = new[] { ";" };
-        }
-
-
-        public CsvTableImporter(MappingMode mappingMode, IRowSaver<T> rowSaver,
-            int? eventInterval, bool enableValidation)
-            : base(mappingMode, rowSaver, eventInterval, enableValidation)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = new[] { ";" };
-        }
-
-        public CsvTableImporter(
-            MappingMode mappingMode,
-            IRowSaver<T> rowSaver,
-            int? eventInterval, bool enableValidation,
-            bool suppressConvertTypeErrors,
-            int? rowsLimit)
-            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = new[] { ";" };
-        }
-
-        public CsvTableImporter(
-            MappingMode mappingMode,
-            IRowSaver<T> rowSaver, 
-            int? eventInterval, bool enableValidation,
-            bool suppressConvertTypeErrors,
-            int? rowsLimit,
-            string[] delimiters) 
-            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = Encoding.UTF8;
-            _delimiters = delimiters;
-        }
-
-        public CsvTableImporter(
-            MappingMode mappingMode, 
-            IRowSaver<T> rowSaver,
-            int eventInterval, bool enableValidation,
-            bool suppressConvertTypeErrors, int? rowsLimit,
-            string[] delimiters, Encoding encoding) 
-            : base(mappingMode, rowSaver, eventInterval, enableValidation, suppressConvertTypeErrors, rowsLimit)
-        {
-            _encoding = encoding;
-            _delimiters = delimiters;
-        }
-
 
         private void ProcessImport(TextFieldParser parser, CancellationToken? cancellationToken = null)
         {
@@ -99,7 +44,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     if (fields == null)
                         continue;
                    
-                    var entity = RowMapper.Map(fields, header, row + 1, SuppressConvertTypeErrors);
+                    var entity = RowMapper.Map(fields, header, row + 1, MappingOptions.SuppressConvertTypeErrors);
 
                     ValidateRow(entity, row);
 
@@ -114,7 +59,6 @@ namespace mrigrek74.TableMappings.Core.TableImport
 
             OnProgress(new DocumentImportEventArgs(row));
         }
-
 
         public override void Import(string path)
         {

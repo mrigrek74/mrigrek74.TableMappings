@@ -1,5 +1,2 @@
 —писок ошибок?
- ласс параметров в конструкторы int? eventInterval, bool enableValidation,
-            bool suppressConvertTypeErrors,
-            int? rowsLimit
 требовать или нет заголовок при мапинге по позици€м

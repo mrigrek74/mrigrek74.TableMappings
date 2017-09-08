@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace mrigrek74.TableMappings.Core
+namespace mrigrek74.TableMappings.Core.Extensions
 {
     public static class EnumerableExtensions
     {

@@ -16,7 +16,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public void ImportCsvFromPath()
         {
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver))
+            using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 importer.Import(TestCsvPath);
             }
@@ -26,7 +26,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public void ImportCsvFromPathAndEvents()
         {
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver, 15))
+            using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver, 15))
             {
                 importer.Progress += Importer_Progress;
                 importer.Import(TestCsvPath);
@@ -42,9 +42,9 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         [TestMethod]
         public async Task ImportCsvFromPathAsync()
         {
-            var tokenSource = new CancellationTokenSource(60000);
+            var tokenSource = new CancellationTokenSource(60_000);
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver))
+            using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 await importer.ImportAsync(TestCsvPath, tokenSource.Token);
             }
@@ -53,9 +53,9 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         [TestMethod]
         public async Task ImportCsvFromPathAsyncAndEvents()
         {
-            var tokenSource = new CancellationTokenSource(60000);
+            var tokenSource = new CancellationTokenSource(60_000);
             var saver = new TestInsertSaver();
-            using (var importer = new CsvTableImporter<TestClass>(MappingMode.ByName, saver, 15))
+            using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver, 15))
             {
                 importer.Progress += Importer_Progress;
                 await importer.ImportAsync(TestCsvPath, tokenSource.Token);
