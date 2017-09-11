@@ -29,35 +29,6 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
 
-        private void SimpleMappingTrace(ICollection<TestClass> items, string path)
-        {
-            Trace.WriteLine(path);
-            Trace.WriteLine("");
-            const int take = 100;
-            Trace.WriteLine($"First {take} of {items.Count}:");
-
-            var top = items.Take(take).ToList();
-
-            for (int i = 0; i < top.Count; i++)
-            {
-                var item = top[i];
-                if (i == 0)
-                {
-                    foreach (var p in item.GetType().GetProperties())
-                    {
-                        Trace.Write($"{p.Name};");
-                    }
-                    Trace.WriteLine(string.Empty);
-                }
-                foreach (var p in item.GetType().GetProperties())
-                {
-                    Trace.Write($"{p.GetValue(item, null)};");
-                }
-                Trace.WriteLine(string.Empty);
-            }
-        }
-
-
         [TestMethod]
         public void SimpleMappingByPath()
         {
@@ -66,7 +37,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items, TestXlsxPath);
+            items.SimpleMappingTrace(TestXlsxPath);
         }
 
         [TestMethod]
@@ -80,7 +51,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items, TestXlsxPath);
+                items.SimpleMappingTrace(TestXlsxPath);
             }
         }
 
@@ -136,7 +107,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
 
-            SimpleMappingTrace(items, TestXlsxPath);
+            items.SimpleMappingTrace(TestXlsxPath);
         }
 
         [TestMethod]
@@ -149,7 +120,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "items empty");
 
-                SimpleMappingTrace(items, TestXlsxPath);
+                items.SimpleMappingTrace(TestXlsxPath);
             }
             catch (TableMappingException ex)
             {

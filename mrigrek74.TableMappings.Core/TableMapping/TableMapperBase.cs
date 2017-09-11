@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         protected TableMapperBase(MappingOptions mappingOptions)
         {
             MappingOptions = mappingOptions ?? throw new ArgumentException(nameof(mappingOptions));
-                
 
             switch (mappingOptions.MappingMode)
             {

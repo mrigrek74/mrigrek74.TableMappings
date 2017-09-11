@@ -17,13 +17,8 @@
 
         public bool HasHeader
         {
-            get => _hasHeader;
-            set => _hasHeader = MappingMode == MappingMode.ByName || value;
-        }
-
-        public MappingOptions()
-        {
-
+            get => MappingMode == MappingMode.ByName || _hasHeader;
+            set => _hasHeader = value;
         }
     }
 }

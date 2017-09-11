@@ -48,15 +48,15 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Csv
             var exporter = new CsvTableExporter<TestClass>();
             exporter.Export(list, fname);
 
-            if(!File.Exists(fname))
+            if (!File.Exists(fname))
                 Assert.Fail($"{fname} is not exists");
 
-            var lines =File.ReadAllLines(fname);
+            var lines = File.ReadAllLines(fname);
 
-            if(!lines.Any())
+            if (!lines.Any())
                 Assert.Fail("No lines");
 
-            if(lines.Length != 3)
+            if (lines.Length != 3)
                 Assert.Fail("lines.Length != 3");
 
             Assert.AreEqual("test string;test int;test int?;test float;test float?;test decimal;test decimal?;test double;test double?;test guid;test guid?;test datetime;test datetime?;", lines[0]);

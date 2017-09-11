@@ -66,6 +66,7 @@
     <Compile Include="TableMapping\Xlsx\XlsxTableMappingTest.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestExt.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -27,46 +26,20 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
-
-
-        private void SimpleMappingTrace(ICollection<TestClass> items, string path)
-        {
-            Trace.WriteLine(path);
-            Trace.WriteLine("");
-            const int take = 100;
-            Trace.WriteLine($"First {take} of {items.Count}:");
-
-            var top = items.Take(take).ToList();
-
-            for (int i = 0; i < top.Count; i++)
-            {
-                var item = top[i];
-                if (i == 0)
-                {
-                    foreach (var p in item.GetType().GetProperties())
-                    {
-                        Trace.Write($"{p.Name};");
-                    }
-                    Trace.WriteLine(string.Empty);
-                }
-                foreach (var p in item.GetType().GetProperties())
-                {
-                    Trace.Write($"{p.GetValue(item, null)};");
-                }
-                Trace.WriteLine(string.Empty);
-            }
-        }
-
-
+        
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new CsvMapper<TestClass>(new MappingOptions {});
+            var mapper = new CsvMapper<TestClass>(new MappingOptions
+            {
+                MappingMode = MappingMode.ByNumber,
+                HasHeader = false
+            });
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");
 
-            SimpleMappingTrace(items, TestCsvPath);
+            items.SimpleMappingTrace(TestCsvPath);
         }
 
         [TestMethod]
@@ -80,7 +53,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "Result empty");
 
-                SimpleMappingTrace(items, TestCsvPath);
+                items.SimpleMappingTrace(TestCsvPath);
             }
         }
 
@@ -138,7 +111,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");
 
-            SimpleMappingTrace(items, TestCsvPath);
+            items.SimpleMappingTrace(TestCsvPath);
         }
 
 
@@ -152,7 +125,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 Assert.IsNotNull(items, "Result is null");
                 Assert.IsTrue(items.Any(), "Items empty");
 
-                SimpleMappingTrace(items, TestCsvPath);
+                items.SimpleMappingTrace(TestCsvPath);
             }
             catch (TableMappingException ex)
             {
