@@ -17,6 +17,12 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             _delimiters = new[] { ";" };
         }
 
+        public CsvMapper(MappingOptions mappingOptions, string[] delimiters) : base(mappingOptions)
+        {
+            _encoding = Encoding.UTF8;
+            _delimiters = delimiters;
+        }
+
         private IList<T> ProcessMap(TextFieldParser parser)
         {
             int row = 0;

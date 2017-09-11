@@ -14,17 +14,17 @@ namespace mrigrek74.TableMappings.Core.Extensions
         public static int GetColumnNumber(this PropertyInfo src, int defaultValue)
             => src.GetAttr<ColumnNumberAttribute>()?.ColumnNumber ?? defaultValue;
 
-        public static T GetAttr<T>(this PropertyInfo src) where T : Attribute
+        public static TA GetAttr<TA>(this PropertyInfo src) where TA : Attribute
         {
-            var typeofT = typeof(T);
+            var typeofT = typeof(TA);
             object[] attributes = src.GetCustomAttributes(typeofT, false);
             if (attributes.Length > 0)
             {
-                return (T)attributes[0];
+                return (TA)attributes[0];
             }
 
-            var metadataType = typeofT
-                .GetCustomAttributes(typeof(MetadataTypeAttribute), true)
+            var metadataType = src.DeclaringType
+                ?.GetCustomAttributes(typeof(MetadataTypeAttribute), true)
                 .OfType<MetadataTypeAttribute>()
                 .FirstOrDefault();
 
@@ -41,7 +41,7 @@ namespace mrigrek74.TableMappings.Core.Extensions
 
                     if (metadataPropAttributes.Length > 0)
                     {
-                        return (T)metadataPropAttributes[0];
+                        return (TA)metadataPropAttributes[0];
                     }
                 }
             }

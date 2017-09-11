@@ -18,6 +18,17 @@ namespace mrigrek74.TableMappings.Core.TableImport
             _delimiters = new[] { ";" };
         }
 
+        public CsvTableImporter(
+            MappingOptions mappingOptions,
+            IRowSaver<T> rowSaver,
+            string[] delimiters,
+            int? eventInterval = null)
+            : base(mappingOptions, rowSaver, eventInterval)
+        {
+            _encoding = Encoding.UTF8;
+            _delimiters = delimiters;
+        }
+
         private void ProcessImport(TextFieldParser parser, CancellationToken? cancellationToken = null)
         {
             int row = 0;
