@@ -46,7 +46,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     .Select(x => x.ErrorMessage)
                     .Aggregate((item, next) => next + "; " + item);
 
-                var r = row + 1;
+                var r = row;
                 throw new TableMappingException($"{Strings.Row}: {r}; {aggregatedErrors}", r);
             }
         }

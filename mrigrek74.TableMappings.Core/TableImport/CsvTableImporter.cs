@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
         private void ProcessImport(TextFieldParser parser, CancellationToken? cancellationToken = null)
         {
             int row = 0;
+            int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
             string[] header = { };
 
 
@@ -41,15 +43,15 @@ namespace mrigrek74.TableMappings.Core.TableImport
                    && cancellationToken.Value.IsCancellationRequested)
                     cancellationToken.Value.ThrowIfCancellationRequested();
 
-                ThrowIfRowsLimitEnabled(row);
+                ThrowIfRowsLimitEnabled(indexRow);
 
                 if (row == 0)
                 {
                     if (MappingOptions.HasHeader)
                     {
                         header = parser.ReadFields();
-                        if (header == null)
-                            throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                        header = header?.Select(x => x.ToLower()).ToArray()
+                                 ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, indexRow);
                     }
                 }
                 else
@@ -58,13 +60,13 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     if (fields == null)
                         continue;
                    
-                    var entity = RowMapper.Map(fields, header, row + 1, MappingOptions.SuppressConvertTypeErrors);
+                    var entity = RowMapper.Map(fields, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
 
-                    ValidateRow(entity, row);
+                    ValidateRow(entity, indexRow);
 
                     RowSaver.SaveRow(entity);
 
-                    OnProgress(new DocumentImportEventArgs(row));
+                    OnProgress(new DocumentImportEventArgs(indexRow));
                 }
                 row++;
             }

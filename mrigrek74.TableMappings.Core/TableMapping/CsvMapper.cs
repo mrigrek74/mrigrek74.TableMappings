@@ -26,12 +26,13 @@ namespace mrigrek74.TableMappings.Core.TableMapping
         private IList<T> ProcessMap(TextFieldParser parser)
         {
             int row = 0;
+            int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
             string[] header = { };
 
             var result = new List<T>();
             while (!parser.EndOfData)
             {
-                ThrowIfRowsLimitEnabled(row);
+                ThrowIfRowsLimitEnabled(indexRow);
 
                 if (row == 0)
                 {
@@ -40,7 +41,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 
                         header = parser.ReadFields();
                         header = header?.Select(x => x.ToLower()).ToArray()
-                                 ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, row);
+                                 ?? throw new TableMappingException(Strings.HeaderRowIsEmpty, indexRow);
                     }
                 }
                 else
@@ -49,13 +50,14 @@ namespace mrigrek74.TableMappings.Core.TableMapping
                     if (fields == null)
                         continue;
 
-                    var entity = RowMapper.Map(fields, header, row + 1, MappingOptions.SuppressConvertTypeErrors);
+                    var entity = RowMapper.Map(fields, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
 
-                    ValidateRow(entity, row);
+                    ValidateRow(entity, indexRow);
 
                     result.Add(entity);
                 }
                 row++;
+                indexRow++;
             }
             return result;
         }

@@ -61,7 +61,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     .Select(x => x.ErrorMessage)
                     .Aggregate((item, next) => next + "; " + item);
 
-                throw new TableMappingException($"{Strings.Row}: {row + 1}; {aggregatedErrors}", row);
+                throw new TableMappingException($"{Strings.Row}: {row}; {aggregatedErrors}", row);
             }
         }
 
