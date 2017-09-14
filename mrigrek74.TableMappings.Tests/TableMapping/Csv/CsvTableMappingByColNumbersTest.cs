@@ -31,10 +31,12 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         [TestMethod]
         public void SimpleMappingByPath()
         {
-            var mapper = new CsvMapper<TestClass>(new MappingOptions
+            var mapper = new CsvMapper<TestClass>(
+                new MappingOptions
             {
-                MappingMode = MappingMode.ByName,
-                //SuppressConvertTypeErrors = false,
+                MappingMode = MappingMode.ByNumber,
+                SuppressConvertTypeErrors = false,
+                EnableValidation = true,
                 HasHeader = false
             });
             var items = mapper.Map(TestCsvPath);
