@@ -59,7 +59,8 @@ namespace mrigrek74.TableMappings.Tests.TableExport.Csv
             if (lines.Length != 3)
                 Assert.Fail("lines.Length != 3");
 
-            Assert.AreEqual("test string;test int;test int?;test float;test float?;test decimal;test decimal?;test double;test double?;test guid;test guid?;test datetime;test datetime?;", lines[0]);
+            Assert.AreEqual("Test String;Test Int;Test Int?;Test Float;Test Float?;Test Decimal;Test Decimal?;" +
+                            "Test Double;Test Double?;Test Guid;Test Guid?;Test DateTime;Test DateTime?;", lines[0]);
             Assert.AreEqual("@@;1;;2,1;;0;;0;;a6f6f6fd-7687-48a5-8e9e-c9ce3ae7f093;;04.07.2017 10:35:17;;", lines[1]);
         }
     }

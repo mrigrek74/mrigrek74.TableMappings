@@ -11,6 +11,9 @@ namespace mrigrek74.TableMappings.Core.Extensions
         public static string GetColumnName(this PropertyInfo src)
             => src.GetAttr<ColumnNameAttribute>()?.ColumnName ?? src.Name;
 
+        public static string GetColumnNameLowered(this PropertyInfo src)
+            => src.GetAttr<ColumnNameAttribute>()?.ColumnNameLowered ?? src.Name;
+
         public static int GetColumnNumber(this PropertyInfo src, int defaultValue)
             => src.GetAttr<ColumnNumberAttribute>()?.ColumnNumber ?? defaultValue;
 

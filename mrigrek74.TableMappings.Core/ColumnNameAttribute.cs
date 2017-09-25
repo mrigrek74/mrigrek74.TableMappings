@@ -5,6 +5,7 @@ namespace mrigrek74.TableMappings.Core
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnNameAttribute : Attribute
     {
+        public string ColumnNameLowered { get; }
         public string ColumnName { get; }
 
         public ColumnNameAttribute(string columnName)
@@ -15,8 +16,8 @@ namespace mrigrek74.TableMappings.Core
             ColumnName = columnName
                 .Replace("\r", string.Empty)
                 .Replace("\n", string.Empty)
-                .Trim()
-                .ToLower();
+                .Trim();
+            ColumnNameLowered = ColumnName.ToLower();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace mrigrek74.TableMappings.Core
                 if (!property.CanWrite)
                     continue;
 
-                var columnName = property.GetColumnName();
+                var columnName = property.GetColumnNameLowered();
 
                 if (_propNamesColNames.ContainsValue(columnName))
                     throw new InvalidOperationException($"{Strings.ColumnNameMustBeUnique}: {columnName}");
