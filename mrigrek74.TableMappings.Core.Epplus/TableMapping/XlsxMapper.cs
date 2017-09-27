@@ -35,14 +35,18 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
             var result = new List<T>();
 
             var header = new string[sheet.Dimension.End.Column];
-            for (var column = 1; column <= sheet.Dimension.End.Column; column++)
+            if (MappingOptions.HasHeader)
             {
-                header[column - 1] = sheet.Cells[1, column].Text?.ToLower() ?? string.Empty;
+                for (var column = 1; column <= sheet.Dimension.End.Column; column++)
+                {
+                    header[column - 1] = sheet.Cells[1, column].Text?.ToLower() ?? string.Empty;
+                }
             }
 
-            for (var row = 2; row <= sheet.Dimension.End.Row; row++)
+            int rowFix = MappingOptions.HasHeader ? 1 : 0;
+            for (var row = 1 + rowFix; row <= sheet.Dimension.End.Row; row++)
             {
-                ThrowIfRowsLimitEnabled(row - 1);
+                ThrowIfRowsLimitEnabled(row);
 
                 var rowResult = new string[sheet.Dimension.End.Column]; 
 
@@ -52,7 +56,7 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                 }
 
                 var entity = RowMapper.Map(rowResult, header, row, MappingOptions.SuppressConvertTypeErrors);
-                ValidateRow(entity, row - 1);
+                ValidateRow(entity, row);
                 result.Add(entity);
             }
 
