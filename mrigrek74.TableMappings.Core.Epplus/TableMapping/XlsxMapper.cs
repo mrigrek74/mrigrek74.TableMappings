@@ -39,7 +39,12 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
             {
                 for (var column = 1; column <= sheet.Dimension.End.Column; column++)
                 {
-                    header[column - 1] = sheet.Cells[1, column].Text?.ToLower() ?? string.Empty;
+                    header[column - 1] = sheet.Cells[1, column]
+                                             ?.Text
+                                             ?.Replace("\r", string.Empty)
+                                             .Replace("\n", string.Empty)
+                                             .Trim()
+                                             .ToLower() ?? string.Empty;
                 }
             }
 
