@@ -3,3 +3,4 @@
 неиспользуемый string[] header
 Список ошибок?
 ToDataTable
+throw new TableMappingException($"xlsx-cтраница {_sheetName} пустая", 0);

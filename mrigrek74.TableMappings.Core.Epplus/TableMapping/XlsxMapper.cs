@@ -33,6 +33,8 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
         private IList<T> ProcessMap(ExcelWorksheet sheet)
         {
             var result = new List<T>();
+            if (sheet.Dimension == null)
+                throw new TableMappingException($"xlsx-cтраница {_sheetName} пустая", 0);
 
             var header = new string[sheet.Dimension.End.Column];
             if (MappingOptions.HasHeader)
