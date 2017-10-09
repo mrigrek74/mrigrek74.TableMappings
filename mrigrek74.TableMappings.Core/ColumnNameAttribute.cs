@@ -13,10 +13,7 @@ namespace mrigrek74.TableMappings.Core
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentException(Strings.ColumnNameIsRequired, nameof(columnName));
 
-            ColumnName = columnName
-                .Replace("\r", string.Empty)
-                .Replace("\n", string.Empty)
-                .Trim();
+            ColumnName = columnName.Trim();
             ColumnNameLowered = ColumnName.ToLower();
         }
     }
