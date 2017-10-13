@@ -68,7 +68,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             using (var parser = new TextFieldParser(path, _encoding)
             {
                 TextFieldType = FieldType.Delimited,
-                Delimiters = _delimiters
+                Delimiters = _delimiters,
+                TrimWhiteSpace = MappingOptions.Trim
             })
             {
                 return ProcessMap(parser);
@@ -80,7 +81,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             using (var parser = new TextFieldParser(stream, _encoding)
             {
                 TextFieldType = FieldType.Delimited,
-                Delimiters = _delimiters
+                Delimiters = _delimiters,
+                TrimWhiteSpace = MappingOptions.Trim
             })
             {
                 return ProcessMap(parser);

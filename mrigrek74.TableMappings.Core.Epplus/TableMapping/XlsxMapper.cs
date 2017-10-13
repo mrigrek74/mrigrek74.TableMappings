@@ -59,7 +59,12 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
 
                 for (var column = 1; column <= sheet.Dimension.End.Column; column++)
                 {
-                    rowResult[column - 1] = sheet.Cells[row, column]?.Value?.ToString();
+                    var value = sheet.Cells[row, column]?.Value?.ToString();
+
+                    if (MappingOptions.Trim)
+                        value = value?.Trim();
+
+                    rowResult[column - 1] = value;
                 }
 
                 var entity = RowMapper.Map(rowResult, header, row, MappingOptions.SuppressConvertTypeErrors);

@@ -12,7 +12,7 @@
         public bool EnableValidation { get; set; }
         public bool SuppressConvertTypeErrors { get; set; } = true;
         public int? RowsLimit { get; set; }
-
+        public bool Trim { get; set; } = true;
         private bool _hasHeader;
 
         public bool HasHeader
