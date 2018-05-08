@@ -12,7 +12,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvTableImporter(MappingOptions mappingOptions, IRowSaver<T> rowSaver, int? eventInterval = null) 
+        public CsvTableImporter(MappingOptions mappingOptions, IRowSaver<T> rowSaver, int? eventInterval = null)
             : base(mappingOptions, rowSaver, eventInterval)
         {
             _encoding = Encoding.UTF8;
@@ -59,7 +59,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     var fields = parser.ReadFields();
                     if (fields == null)
                         continue;
-                   
+
                     var entity = RowMapper.Map(fields, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
 
                     ValidateRow(entity, indexRow);
@@ -69,6 +69,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     OnProgress(new DocumentImportEventArgs(indexRow));
                 }
                 row++;
+                indexRow++;
             }
 
             RowSaver.SaveRemainder();
