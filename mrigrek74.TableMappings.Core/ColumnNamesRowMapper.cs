@@ -24,11 +24,15 @@ namespace mrigrek74.TableMappings.Core
             }
         }
 
-        protected override void FillObject(T target, string[] row, string[] header,
-            int? rowNumber, bool supressErrors)
+        protected override void FillObject(
+            T target,
+            string[] row,
+            string[] header,
+            int? rowNumber,
+            bool supressErrors)
         {
             var rowResult = new Dictionary<string, string>();
-            for (int i = 0; i < row.Length; i++)
+            for (int i = 0; i < header.Length; i++)
             {
                 var field = row[i];
                 rowResult[header[i]] = field;
