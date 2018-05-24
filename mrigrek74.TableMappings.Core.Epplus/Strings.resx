@@ -123,4 +123,7 @@
   <data name="notFound" xml:space="preserve">
     <value>not found</value>
   </data>
+  <data name="XlsxPageEmpty" xml:space="preserve">
+    <value>xlsx page {0} empty</value>
+  </data>
 </root>

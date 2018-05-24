@@ -123,4 +123,7 @@
   <data name="notFound" xml:space="preserve">
     <value>не найден</value>
   </data>
+  <data name="XlsxPageEmpty" xml:space="preserve">
+    <value>xlsx-cтраница {0} пустая</value>
+  </data>
 </root>

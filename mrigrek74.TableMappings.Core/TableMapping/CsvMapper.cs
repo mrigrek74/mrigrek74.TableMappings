@@ -32,7 +32,7 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             var result = new List<T>();
             while (!parser.EndOfData)
             {
-                ThrowIfRowsLimitEnabled(indexRow);
+                ThrowIfRowsLimitEnabled(row, indexRow);
 
                 if (row == 0)
                 {

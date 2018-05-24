@@ -9,8 +9,8 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
     public class XlsxMapper<T> : TableMapperBase<T>
     {
         private readonly string _sheetName;
-     
-        public XlsxMapper(MappingOptions mappingOptions, string sheetName = null): base(mappingOptions)
+
+        public XlsxMapper(MappingOptions mappingOptions, string sheetName = null) : base(mappingOptions)
         {
             _sheetName = sheetName;
         }
@@ -34,7 +34,7 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
         {
             var result = new List<T>();
             if (sheet.Dimension == null)
-                throw new TableMappingException($"xlsx-cтраница {_sheetName} пустая", 0);
+                throw new TableMappingException(string.Format(Strings.XlsxPageEmpty, _sheetName), 0);
 
             var header = new string[sheet.Dimension.End.Column];
             if (MappingOptions.HasHeader)
@@ -50,16 +50,19 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                 }
             }
 
-            int rowFix = MappingOptions.HasHeader ? 1 : 0;
-            for (var row = 1 + rowFix; row <= sheet.Dimension.End.Row; row++)
-            {
-                ThrowIfRowsLimitEnabled(row);
+            int startRow = 1;
+            int row = 0;
+            int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
 
-                var rowResult = new string[sheet.Dimension.End.Column]; 
+            for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, row++, indexRow++)
+            {
+                ThrowIfRowsLimitEnabled(row, indexRow);
+
+                var rowResult = new string[sheet.Dimension.End.Column];
 
                 for (var column = 1; column <= sheet.Dimension.End.Column; column++)
                 {
-                    var value = sheet.Cells[row, column]?.Value?.ToString();
+                    var value = sheet.Cells[rowI, column]?.Value?.ToString();
 
                     if (MappingOptions.Trim)
                         value = value?.Trim();
@@ -67,8 +70,8 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                     rowResult[column - 1] = value;
                 }
 
-                var entity = RowMapper.Map(rowResult, header, row, MappingOptions.SuppressConvertTypeErrors);
-                ValidateRow(entity, row);
+                var entity = RowMapper.Map(rowResult, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
+                ValidateRow(entity, indexRow);
                 result.Add(entity);
             }
 

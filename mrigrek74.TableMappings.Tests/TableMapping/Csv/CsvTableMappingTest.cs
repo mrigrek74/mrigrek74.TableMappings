@@ -106,7 +106,11 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
         public void MappingWithRowLimit2()
         {
             
-            var mapper = new CsvMapper<TestClass>(new MappingOptions { RowsLimit = 100 });
+            var mapper = new CsvMapper<TestClass>(new MappingOptions
+            {
+                RowsLimit = 100,
+                HasHeader = true
+            });
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "Items empty");

@@ -51,12 +51,12 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             }
         }
 
-        protected void ThrowIfRowsLimitEnabled(int row)
+        protected void ThrowIfRowsLimitEnabled(int row, int indexRow)
         {
             if (MappingOptions.RowsLimit.HasValue && row > MappingOptions.RowsLimit)
             {
                 throw new TableMappingException(
-                    $"{Strings.ImportIsLimitedTo} {MappingOptions.RowsLimit} {Strings.Records}", row);
+                    $"{Strings.ImportIsLimitedTo} {MappingOptions.RowsLimit} {Strings.Records}", indexRow);
             }
         }
 

@@ -37,7 +37,7 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Csv
                 MappingMode = MappingMode.ByNumber,
                 SuppressConvertTypeErrors = false,
                 EnableValidation = true,
-                HasHeader = false
+                HasHeader = true
             });
             var items = mapper.Map(TestCsvPath);
             Assert.IsNotNull(items, "Result is null");

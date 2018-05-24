@@ -102,7 +102,11 @@ namespace mrigrek74.TableMappings.Tests.TableMapping.Xlsx
         [TestMethod]
         public void MappingWithRowLimit2()
         {
-            var mapper = new XlsxMapper<TestClass>(new MappingOptions { RowsLimit = 100 });
+            var mapper = new XlsxMapper<TestClass>(new MappingOptions
+            {
+                HasHeader = true,
+                RowsLimit = 100
+            });
             var items = mapper.Map(TestXlsxPath);
             Assert.IsNotNull(items, "Result is null");
             Assert.IsTrue(items.Any(), "items empty");
