@@ -12,8 +12,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
         private readonly Encoding _encoding;
         private readonly string[] _delimiters;
 
-        public CsvTableImporter(MappingOptions mappingOptions, IRowSaver<T> rowSaver, int? eventInterval = null)
-            : base(mappingOptions, rowSaver, eventInterval)
+        public CsvTableImporter(MappingOptions mappingOptions, IRowSaver<T> rowSaver)
+            : base(mappingOptions, rowSaver)
         {
             _encoding = Encoding.UTF8;
             _delimiters = new[] { ";" };
@@ -22,15 +22,14 @@ namespace mrigrek74.TableMappings.Core.TableImport
         public CsvTableImporter(
             MappingOptions mappingOptions,
             IRowSaver<T> rowSaver,
-            string[] delimiters,
-            int? eventInterval = null)
-            : base(mappingOptions, rowSaver, eventInterval)
+            string[] delimiters)
+            : base(mappingOptions, rowSaver)
         {
             _encoding = Encoding.UTF8;
             _delimiters = delimiters;
         }
 
-        private void ProcessImport(TextFieldParser parser, CancellationToken? cancellationToken = null)
+        private void ProcessImport(TextFieldParser parser, CancellationToken? ct = null)
         {
             int row = 0;
             int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
@@ -39,9 +38,8 @@ namespace mrigrek74.TableMappings.Core.TableImport
 
             while (!parser.EndOfData)
             {
-                if (cancellationToken.HasValue
-                   && cancellationToken.Value.IsCancellationRequested)
-                    cancellationToken.Value.ThrowIfCancellationRequested();
+                if (ct.HasValue && ct.Value.IsCancellationRequested)
+                    ct.Value.ThrowIfCancellationRequested();
 
                 ThrowIfRowsLimitEnabled(indexRow);
 
@@ -65,16 +63,12 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     ValidateRow(entity, indexRow);
 
                     RowSaver.SaveRow(entity);
-
-                    OnProgress(new DocumentImportEventArgs(indexRow));
                 }
                 row++;
                 indexRow++;
             }
 
             RowSaver.SaveRemainder();
-
-            OnProgress(new DocumentImportEventArgs(row));
         }
 
         public override void Import(string path)
@@ -101,8 +95,9 @@ namespace mrigrek74.TableMappings.Core.TableImport
             }
         }
 
-        public override async Task ImportAsync(string path,
-                       CancellationToken cancellationToken)
+        public override async Task ImportAsync(
+            string path,
+            CancellationToken ct)
         {
             await Task.Factory.StartNew(() =>
             {
@@ -112,13 +107,14 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     Delimiters = _delimiters
                 })
                 {
-                    ProcessImport(parser, cancellationToken);
+                    ProcessImport(parser, ct);
                 }
-            }, cancellationToken);
+            }, ct);
         }
 
-        public override async Task ImportAsync(Stream stream,
-                       CancellationToken cancellationToken)
+        public override async Task ImportAsync(
+            Stream stream,
+            CancellationToken ct)
         {
             await Task.Factory.StartNew(() =>
             {
@@ -128,10 +124,10 @@ namespace mrigrek74.TableMappings.Core.TableImport
                     Delimiters = _delimiters
                 })
                 {
-                    ProcessImport(parser, cancellationToken);
+                    ProcessImport(parser, ct);
                 }
 
-            }, cancellationToken);
+            }, ct);
         }
     }
 }

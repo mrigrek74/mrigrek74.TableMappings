@@ -12,25 +12,14 @@ namespace mrigrek74.TableMappings.Core.TableImport
     public abstract class TableImporterBase<T> : ITableImporter, IDisposable
     {
         protected readonly MappingOptions MappingOptions;
-        private int? _eventInterval;
-
-        public event EventHandler<DocumentImportEventArgs> Progress;
-        protected virtual void OnProgress(DocumentImportEventArgs e)
-        {
-            if (_eventInterval.HasValue && e.Rows % _eventInterval.Value == 0)
-            {
-                Progress?.Invoke(this, e);
-            }
-        }
 
         protected readonly RowMapperBase<T> RowMapper;
         protected IRowSaver<T> RowSaver;
 
-        protected TableImporterBase(MappingOptions mappingOptions, IRowSaver<T> rowSaver, int? eventInterval = null)
+        protected TableImporterBase(MappingOptions mappingOptions, IRowSaver<T> rowSaver)
         {
             MappingOptions = mappingOptions ?? throw new ArgumentException(nameof(mappingOptions));
             RowSaver = rowSaver;
-            _eventInterval = eventInterval;
 
             switch (MappingOptions.MappingMode)
             {

@@ -1,16 +1,44 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 //using System.Data.Entity;
 using mrigrek74.TableMappings.Core.TableImport;
 
 namespace mrigrek74.TableMappings.Tests.TableImport.Csv
 {
-    public class TestInsertOrUpdateSaver : IRowSaver<TestClass>
+    public class TestInsertOrUpdateSaver : RowSaverBase<TestClass>
     {
-        //private Entities _db = new Entities(); 
-        private readonly List<TestClass> _tempList = new List<TestClass>();
-        private const int InsertOrUpdateChunk = 25;//1000
+        //private Entities_db;
+        //private bool _needRemoveAll;
 
-        private void ProcessInsertOrUpdate()
+        private void RecreateDbContext()
+        {
+//            _db = new Entities_db();
+//            _db.Configuration.AutoDetectChangesEnabled = false;
+//#if DEBUG
+//            _db.Database.Log = x => Trace.WriteLine(x);
+//#endif
+        }
+
+        public TestInsertOrUpdateSaver(int? eventInterval) : base(eventInterval)
+        {
+            RecreateDbContext();
+        }
+
+        //private void RemoveAllForFirstTime()
+        //{
+        //    if (!_needRemoveAll)
+        //        return;
+
+        //    _db.Database.ExecuteSqlCommand(
+        //        "DELETE FROM tbl WHERE ID = @ID",
+        //        new SqlParameter("@ID", _id));
+        //    _needRemoveAll = false;
+        //}
+
+
+        protected override int InsertOrUpdateChunk => 100;
+        protected override void ProcessImport()
         {
             //var ids = _tempList
             //    .Where(x => x.LocalObjectId.HasValue)
@@ -52,28 +80,10 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
             //}
 
             //_db.SaveChanges();
-            _tempList.Clear();
+            RecreateDbContext();
         }
 
-        public void SaveRow(TestClass row)
-        {
-            _tempList.Add(row);
-            if (_tempList.Count == InsertOrUpdateChunk)
-            {
-                ProcessInsertOrUpdate();
-
-                //_db.Dispose();
-                //_db = new Entities();
-                //_db.Configuration.AutoDetectChangesEnabled = false;
-            }
-        }
-
-        public void SaveRemainder()
-        {
-            ProcessInsertOrUpdate();
-        }
-
-        public void Dispose()
+        public override void Dispose()
         {
             //_db?.Dispose();
         }
