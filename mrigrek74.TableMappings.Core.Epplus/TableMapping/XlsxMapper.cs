@@ -50,9 +50,10 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                 }
             }
 
-            int startRow = 1;
+            int headerCorrect = (MappingOptions.HasHeader ? 1 : 0);
+            int startRow = 1 + headerCorrect;
             int row = 0;
-            int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
+            int indexRow = row + headerCorrect;
 
             for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, row++, indexRow++)
             {
