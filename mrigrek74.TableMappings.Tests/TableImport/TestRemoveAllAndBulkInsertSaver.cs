@@ -2,7 +2,7 @@
 //using mrigrek74.TableMappings.Core.Extensions;
 //using mrigrek74.TableMappings.Core.TableImport;
 
-//namespace mrigrek74.TableMappings.Tests.TableImport.Csv
+//namespace mrigrek74.TableMappings.Tests.TableImport
 //{
 //    public class TestRemoveAllAndBulkInsertSaver : IRowSaver<TestClass>
 //    {

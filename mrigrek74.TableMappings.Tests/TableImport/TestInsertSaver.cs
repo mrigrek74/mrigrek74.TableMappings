@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using mrigrek74.TableMappings.Core.TableImport;
 
-namespace mrigrek74.TableMappings.Tests.TableImport.Csv
+namespace mrigrek74.TableMappings.Tests.TableImport
 {
     public class TestInsertSaver : RowSaverBase<TestClass>
     {

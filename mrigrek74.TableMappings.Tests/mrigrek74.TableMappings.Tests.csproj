@@ -58,9 +58,10 @@
     <Compile Include="TableExport\Csv\CsvTableExportTest.cs" />
     <Compile Include="TableExport\Xlsx\XlsxTableExportTest.cs" />
     <Compile Include="TableImport\Csv\CsvTableImportTest.cs" />
-    <Compile Include="TableImport\Csv\TestInsertOrUpdateSaver.cs" />
-    <Compile Include="TableImport\Csv\TestRemoveAllAndBulkInsertSaver.cs" />
-    <Compile Include="TableImport\Csv\TestInsertSaver.cs" />
+    <Compile Include="TableImport\TestInsertOrUpdateSaver.cs" />
+    <Compile Include="TableImport\TestRemoveAllAndBulkInsertSaver.cs" />
+    <Compile Include="TableImport\TestInsertSaver.cs" />
+    <Compile Include="TableImport\Xlsx\XlsxTableImportTest.cs" />
     <Compile Include="TableMapping\Csv\CsvTableMappingByColNumbersTest.cs" />
     <Compile Include="TableMapping\Csv\CsvTableMappingTest.cs" />
     <Compile Include="TableMapping\Xlsx\XlsxTableMappingTest.cs" />

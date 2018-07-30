@@ -2,15 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using mrigrek74.TableMappings.Core;
+using mrigrek74.TableMappings.Core.Epplus.TableImport;
 using mrigrek74.TableMappings.Core.TableImport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace mrigrek74.TableMappings.Tests.TableImport.Csv
+namespace mrigrek74.TableMappings.Tests.TableImport.Xlsx
 {
     [TestClass]
-    public class CsvTableImportTest
+    public class XlsxTableImportTest
     {
-        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
+        private const string TestXlsxPath = "TableMapping/Xlsx/Test.xlsx";
 
         [TestMethod]
         public void ImportCsvFromPath()
@@ -18,18 +19,18 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
             var saver = new TestInsertSaver(15);
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
-                importer.Import(TestCsvPath);
+                importer.Import(TestXlsxPath);
             }
         }
 
         [TestMethod]
-        public void ImportCsvFromPathAndEvents()
+        public void ImportXlsxFromPathAndEvents()
         {
             var saver = new TestInsertSaver(15);
-            using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
+            using (var importer = new XlsxTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 saver.Progress += Importer_Progress;
-                importer.Import(TestCsvPath);
+                importer.Import(TestXlsxPath);
                 saver.Progress -= Importer_Progress;
             }
         }
@@ -41,25 +42,25 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         }
 
         [TestMethod]
-        public async Task ImportCsvFromPathAsync()
+        public async Task ImportXlsxFromPathAsync()
         {
             var tokenSource = new CancellationTokenSource(60_000);
             var saver = new TestInsertSaver(15);
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
-                await importer.ImportAsync(TestCsvPath, tokenSource.Token);
+                await importer.ImportAsync(TestXlsxPath, tokenSource.Token);
             }
         }
 
         [TestMethod]
-        public async Task ImportCsvFromPathAsyncAndEvents()
+        public async Task ImportXlsxFromPathAsyncAndEvents()
         {
             var tokenSource = new CancellationTokenSource(60_000);
             var saver = new TestInsertSaver(15);
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 saver.Progress += Importer_Progress;
-                await importer.ImportAsync(TestCsvPath, tokenSource.Token);
+                await importer.ImportAsync(TestXlsxPath, tokenSource.Token);
                 saver.Progress -= Importer_Progress;
             }
         }
