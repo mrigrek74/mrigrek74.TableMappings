@@ -11,28 +11,21 @@ namespace mrigrek74.TableMappings.Core.TableImport
 
         protected abstract void ProcessImport();
 
-        private readonly int? _eventInterval;
         protected int TotalImported;
 
-        protected RowSaverBase(int? eventInterval)
-        {
-            _eventInterval = eventInterval;
-        }
-
         public event EventHandler<DocumentImportEventArgs> Progress;
-        protected virtual void OnProgress(DocumentImportEventArgs e, bool force = false)
+        protected virtual void OnProgress(DocumentImportEventArgs e)
         {
-            if (_eventInterval.HasValue && (e.Rows > _eventInterval.Value || force))
-            {
-                Progress?.Invoke(this, e);
-            }
+            Progress?.Invoke(this, e);
         }
 
-        private void Import(bool remainder = false)
+        private void Import()
         {
             ProcessImport();
             TotalImported += TempList.Count;
-            OnProgress(new DocumentImportEventArgs(TotalImported), remainder);
+
+            OnProgress(new DocumentImportEventArgs(TotalImported));
+
             TempList.Clear();
         }
 
@@ -45,7 +38,7 @@ namespace mrigrek74.TableMappings.Core.TableImport
             Import();
         }
 
-        public void SaveRemainder() => Import(true);
+        public void SaveRemainder() => Import();
 
         public virtual void Dispose()
         {

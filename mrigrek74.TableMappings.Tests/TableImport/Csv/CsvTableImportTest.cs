@@ -15,7 +15,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         [TestMethod]
         public void ImportCsvFromPath()
         {
-            var saver = new TestInsertSaver(15);
+            var saver = new TestInsertSaver();
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 importer.Import(TestCsvPath);
@@ -25,7 +25,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         [TestMethod]
         public void ImportCsvFromPathAndEvents()
         {
-            var saver = new TestInsertSaver(15);
+            var saver = new TestInsertSaver();
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 saver.Progress += Importer_Progress;
@@ -44,7 +44,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public async Task ImportCsvFromPathAsync()
         {
             var tokenSource = new CancellationTokenSource(60_000);
-            var saver = new TestInsertSaver(15);
+            var saver = new TestInsertSaver();
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 await importer.ImportAsync(TestCsvPath, tokenSource.Token);
@@ -55,7 +55,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport.Csv
         public async Task ImportCsvFromPathAsyncAndEvents()
         {
             var tokenSource = new CancellationTokenSource(60_000);
-            var saver = new TestInsertSaver(15);
+            var saver = new TestInsertSaver();
             using (var importer = new CsvTableImporter<TestClass>(new MappingOptions(), saver))
             {
                 saver.Progress += Importer_Progress;

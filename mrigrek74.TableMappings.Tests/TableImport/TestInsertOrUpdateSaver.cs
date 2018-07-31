@@ -17,7 +17,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport
 //#endif
         }
 
-        public TestInsertOrUpdateSaver(int? eventInterval) : base(eventInterval)
+        public TestInsertOrUpdateSaver()
         {
             RecreateDbContext();
         }

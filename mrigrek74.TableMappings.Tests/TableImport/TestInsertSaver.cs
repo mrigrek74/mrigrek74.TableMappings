@@ -8,7 +8,7 @@ namespace mrigrek74.TableMappings.Tests.TableImport
     {
         //private Entities _db = new Entities();
 
-        public TestInsertSaver(int eventInterval): base(eventInterval)
+        public TestInsertSaver()
         {
             //_db.Configuration.AutoDetectChangesEnabled = false;
         }
