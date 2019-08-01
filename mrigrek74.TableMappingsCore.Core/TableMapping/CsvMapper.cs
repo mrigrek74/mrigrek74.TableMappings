@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualBasic.FileIO;
+using NotVisualBasic.FileIO;
 
-namespace mrigrek74.TableMappings.Core.TableMapping
+namespace mrigrek74.TableMappingsCore.Core.TableMapping
 {
     public class CsvMapper<T> : TableMapperBase<T>
     {
@@ -23,12 +23,12 @@ namespace mrigrek74.TableMappings.Core.TableMapping
             _delimiters = delimiters;
         }
 
-        private IList<T> ProcessMap(TextFieldParser parser)
+        private IList<T> ProcessMap(CsvTextFieldParser parser)
         {
             int row = 0;
             int indexRow = row + (MappingOptions.HasHeader ? 1 : 0);
             string[] header = { };
-            
+
             var result = new List<T>();
             while (!parser.EndOfData)
             {
@@ -65,9 +65,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 
         public override IList<T> Map(string path)
         {
-            using (var parser = new TextFieldParser(path, _encoding)
+            using (var parser = new CsvTextFieldParser(path, _encoding)
             {
-                TextFieldType = FieldType.Delimited,
                 Delimiters = _delimiters,
                 TrimWhiteSpace = MappingOptions.Trim
             })
@@ -78,9 +77,8 @@ namespace mrigrek74.TableMappings.Core.TableMapping
 
         public override IList<T> Map(Stream stream)
         {
-            using (var parser = new TextFieldParser(stream, _encoding)
+            using (var parser = new CsvTextFieldParser(stream, _encoding)
             {
-                TextFieldType = FieldType.Delimited,
                 Delimiters = _delimiters,
                 TrimWhiteSpace = MappingOptions.Trim
             })

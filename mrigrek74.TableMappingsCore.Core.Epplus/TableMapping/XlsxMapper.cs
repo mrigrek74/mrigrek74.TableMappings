@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using mrigrek74.TableMappings.Core.TableMapping;
+using mrigrek74.TableMappingsCore.Core.TableMapping;
 using OfficeOpenXml;
 
-namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
+namespace mrigrek74.TableMappingsCore.Core.Epplus.TableMapping
 {
     public class XlsxMapper<T> : TableMapperBase<T>
     {
@@ -37,11 +37,11 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
 
             int headerCorrect = (MappingOptions.HasHeader ? 1 : 0);
             int startRow = 1 + headerCorrect;
-            int indexRow = startRow;
+            int row = 1;
 
-            for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, indexRow++)
+            for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, row++)
             {
-                ThrowIfRowsLimitEnabled(rowI, indexRow);
+                ThrowIfRowsLimitEnabled(row, rowI);
 
                 var rowResult = new string[sheet.Dimension.End.Column];
 
@@ -55,8 +55,8 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                     rowResult[column - 1] = value;
                 }
 
-                var entity = RowMapper.Map(rowResult, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
-                ValidateRow(entity, indexRow);
+                var entity = RowMapper.Map(rowResult, header, rowI, MappingOptions.SuppressConvertTypeErrors);
+                ValidateRow(entity, rowI);
                 result.Add(entity);
             }
 

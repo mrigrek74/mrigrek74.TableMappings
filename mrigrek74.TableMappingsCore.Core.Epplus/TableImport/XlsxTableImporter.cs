@@ -1,23 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using mrigrek74.TableMappings.Core.TableMapping;
+using System.Threading;
+using System.Threading.Tasks;
+using mrigrek74.TableMappingsCore.Core.TableImport;
 using OfficeOpenXml;
 
-namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
+namespace mrigrek74.TableMappingsCore.Core.Epplus.TableImport
 {
-    public class XlsxMapper<T> : TableMapperBase<T>
+    public class XlsxTableImporter<T> : TableImporterBase<T>
     {
         private readonly string _sheetName;
 
-        public XlsxMapper(MappingOptions mappingOptions, string sheetName = null) : base(mappingOptions)
+        public XlsxTableImporter(
+            MappingOptions mappingOptions,
+            IRowSaver<T> rowSaver,
+            string sheetName = null) : base(mappingOptions, rowSaver)
         {
             _sheetName = sheetName;
         }
 
-        private IList<T> ProcessMap(ExcelWorksheet sheet)
+        private void ProcessImport(ExcelWorksheet sheet, CancellationToken? ct = null)
         {
-            var result = new List<T>();
             if (sheet.Dimension == null)
                 throw new TableMappingException(string.Format(Strings.XlsxPageEmpty, _sheetName), 0);
 
@@ -37,11 +41,12 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
 
             int headerCorrect = (MappingOptions.HasHeader ? 1 : 0);
             int startRow = 1 + headerCorrect;
-            int indexRow = startRow;
+            int row = 0;
+            int indexRow = row + headerCorrect;
 
-            for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, indexRow++)
+            for (var rowI = startRow; rowI <= sheet.Dimension.End.Row; rowI++, row++, indexRow++)
             {
-                ThrowIfRowsLimitEnabled(rowI, indexRow);
+                ThrowIfRowsLimitEnabled(indexRow);
 
                 var rowResult = new string[sheet.Dimension.End.Column];
 
@@ -57,13 +62,13 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
 
                 var entity = RowMapper.Map(rowResult, header, indexRow, MappingOptions.SuppressConvertTypeErrors);
                 ValidateRow(entity, indexRow);
-                result.Add(entity);
+                RowSaver.SaveRow(entity);
             }
 
-            return result;
+            RowSaver.SaveRemainder();
         }
 
-        public override IList<T> Map(string path)
+        public override void Import(string path)
         {
             using (var pck = new ExcelPackage())
             {
@@ -73,18 +78,48 @@ namespace mrigrek74.TableMappings.Core.Epplus.TableMapping
                 }
 
                 var sheet = pck.GetExcelWorksheet(_sheetName);
-                return ProcessMap(sheet);
+                ProcessImport(sheet);
             }
         }
 
-        public override IList<T> Map(Stream stream)
+        public override void Import(Stream stream)
         {
             using (var pck = new ExcelPackage())
             {
                 pck.Load(stream);
                 var sheet = pck.GetExcelWorksheet(_sheetName);
-                return ProcessMap(sheet);
+                ProcessImport(sheet);
             }
+        }
+
+        public override async Task ImportAsync(string path, CancellationToken ct)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                using (var pck = new ExcelPackage())
+                {
+                    using (var stream = File.OpenRead(path))
+                    {
+                        pck.Load(stream);
+                    }
+
+                    var sheet = pck.GetExcelWorksheet(_sheetName);
+                    ProcessImport(sheet);
+                }
+            }, ct);
+        }
+
+        public override async Task ImportAsync(Stream stream, CancellationToken ct)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                using (var pck = new ExcelPackage())
+                {
+                    pck.Load(stream);
+                    var sheet = pck.GetExcelWorksheet(_sheetName);
+                    ProcessImport(sheet);
+                }
+            }, ct);
         }
     }
 }
