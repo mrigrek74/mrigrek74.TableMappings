@@ -13,10 +13,10 @@ namespace TableMapping.Tests.Mapping.Xlsx
 
     public class XlsxTableMappingTest
     {
-        private const string TestXlsxPath = "TableMapping/Xlsx/Test.xlsx";
-        private const string ValidationTestXlsxPath = "TableMapping/Xlsx/ValidationTest.xlsx";
+        private const string TestXlsxPath = "Mapping/Xlsx/Test.xlsx";
+        private const string ValidationTestXlsxPath = "Mapping/Xlsx/ValidationTest.xlsx";
         private const string SuppressConvertTypeErrorsTestXlsxPath
-            = "TableMapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
+            = "Mapping/Xlsx/SuppressConvertTypeErrorsTest.xlsx";
 
         private readonly ITestOutputHelper _output;
         public XlsxTableMappingTest(ITestOutputHelper output)
@@ -99,20 +99,6 @@ namespace TableMapping.Tests.Mapping.Xlsx
             throw new Exception($"{nameof(TableMappingException)} has not been thrown");
         }
 
-        [Fact]
-        public void MappingWithRowLimit2()
-        {
-            var mapper = new XlsxMapper<TestClass>(new MappingOptions
-            {
-                HasHeader = true,
-                RowsLimit = 100
-            });
-            var items = mapper.Map(TestXlsxPath);
-            Assert.NotNull(items);
-            Assert.True(items.Any(), "items empty");
-
-            items.SimpleMappingTrace(TestXlsxPath, _output);
-        }
 
         [Fact]
         public void MappingWithSuppressConvertTypeErrors()

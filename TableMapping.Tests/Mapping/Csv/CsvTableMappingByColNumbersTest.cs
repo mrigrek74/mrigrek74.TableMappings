@@ -9,9 +9,9 @@ namespace TableMapping.Tests.Mapping.Csv
 {
     public class CsvTableMappingByColNumbersTest
     {
-        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
-        private const string ValidationTestCsvPath = "TableMapping/Csv/ValidationTest.csv";
-        private const string SuppressConvertTypeErrorsTestCsvPath = "TableMapping/Csv/SuppressConvertTypeErrorsTest.csv";
+        private const string TestCsvPath = "Mapping/Csv/Test.csv";
+        private const string ValidationTestCsvPath = "Mapping/Csv/ValidationTest.csv";
+        private const string SuppressConvertTypeErrorsTestCsvPath = "Mapping/Csv/SuppressConvertTypeErrorsTest.csv";
 
         private readonly ITestOutputHelper _output;
         public CsvTableMappingByColNumbersTest(ITestOutputHelper output)

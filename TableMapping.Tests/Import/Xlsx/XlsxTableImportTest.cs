@@ -12,7 +12,7 @@ namespace TableMapping.Tests.Import.Xlsx
     
     public class XlsxTableImportTest
     {
-        private const string TestXlsxPath = "TableMapping/Xlsx/Test.xlsx";
+        private const string TestXlsxPath = "Mapping/Xlsx/Test.xlsx";
         private readonly ITestOutputHelper _output;
 
         public XlsxTableImportTest(ITestOutputHelper output)

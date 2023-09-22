@@ -10,7 +10,7 @@ namespace TableMapping.Tests.Import.Csv
 {
     public class CsvTableImportTest
     {
-        private const string TestCsvPath = "TableMapping/Csv/Test.csv";
+        private const string TestCsvPath = "Mapping/Csv/Test.csv";
         private readonly ITestOutputHelper _output;
         public CsvTableImportTest(ITestOutputHelper output)
         {
